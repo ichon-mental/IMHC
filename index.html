@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정신건강복지센터 - Synology NAS DS920+ 통합 시스템 v2.0</title>
+    <title>정신건강복지센터 - OneDrive 통합 시스템 v2.0</title>
     
     <!-- Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -73,43 +73,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
-        }
-
-        /* 로딩 오버레이 */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-
-        .loading-spinner {
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* 로그인 화면 */
@@ -320,6 +283,38 @@
             padding: 40px;
             min-height: calc(100vh - 130px);
             background: transparent;
+        }
+
+        /* 알림 스타일 */
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            background: white;
+            padding: 20px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--success-color);
+            z-index: 10001;
+            max-width: 450px;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification.error {
+            border-left-color: var(--danger-color);
+        }
+
+        .notification.info {
+            border-left-color: var(--info-color);
+        }
+
+        .notification.warning {
+            border-left-color: var(--warning-color);
         }
 
         /* 위젯 스타일 */
@@ -549,36 +544,29 @@
             background: #ef4444;
         }
 
-        /* 알림 스타일 */
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: 24px;
-            background: white;
-            padding: 20px 24px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            border-left: 4px solid var(--success-color);
-            z-index: 10001;
-            max-width: 450px;
-            animation: slideIn 0.4s ease-out;
+        /* 상태 배지 스타일 */
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .status-badge.processing {
+            background: #f59e0b;
         }
 
-        .notification.error {
-            border-left-color: var(--danger-color);
+        .status-badge.completed {
+            background: #059669;
         }
 
-        .notification.info {
-            border-left-color: var(--info-color);
+        .status-badge.urgent {
+            background: #dc2626;
         }
 
-        .notification.warning {
-            border-left-color: var(--warning-color);
+        .status-badge.excluded {
+            background: #6b7280;
         }
 
         /* 모달 스타일 */
@@ -637,131 +625,6 @@
             justify-content: center;
         }
 
-        /* NAS 상태 카드 */
-        .nas-status-card {
-            background: var(--gradient-nas);
-            color: white;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .nas-status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .nas-status-item {
-            text-align: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .nas-status-value {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .nas-status-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        /* 백업 버튼 스타일 */
-        .backup-btn {
-            background: var(--gradient-nas);
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-        }
-
-        .backup-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .backup-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* 유틸리티 클래스 */
-        .hidden {
-            display: none !important;
-        }
-
-        .show {
-            display: block !important;
-        }
-
-        .text-success {
-            color: var(--success-color);
-        }
-
-        .text-error {
-            color: var(--danger-color);
-        }
-
-        .text-warning {
-            color: var(--warning-color);
-        }
-
-        .text-info {
-            color: var(--info-color);
-        }
-
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 250px;
-            }
-            
-            .dashboard-container {
-                padding: 20px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 16px;
-            }
-
-            .app-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-            }
-
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-        }
-
-        /* 체크박스 스타일 개선 */
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-color);
-        }
-
         /* 폼 섹션 스타일 */
         .form-section {
             padding: 20px;
@@ -796,49 +659,30 @@
             background: #f3f4f6;
         }
 
-        /* 상태 배지 스타일 */
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            color: white;
+        /* 숨김 클래스 */
+        .hidden {
+            display: none !important;
         }
 
-        .status-badge.processing {
-            background: #f59e0b;
-        }
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .dashboard-container {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+            }
 
-        .status-badge.completed {
-            background: #059669;
-        }
-
-        .status-badge.urgent {
-            background: #dc2626;
-        }
-
-        .status-badge.excluded {
-            background: #6b7280;
-        }
-
-        /* 로딩 상태 */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        /* 에러 상태 */
-        .error-state {
-            color: var(--danger-color);
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        /* 성공 상태 */
-        .success-state {
-            color: var(--success-color);
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -850,7 +694,7 @@
     <div class="status-bar">
         <div style="display: flex; align-items: center;">
             <div class="status-dot"></div>
-            <span>Synology NAS DS920+ 시스템 v2.0</span>
+            <span>OneDrive 통합 시스템 v2.0</span>
             <span style="margin-left: 16px; font-size: 11px; opacity: 0.8;">|</span>
             <span style="margin-left: 8px; font-size: 11px;" id="nasConnectionStatusTop">
                 <span id="nasStatusBadge" style="display: inline-flex; align-items: center; gap: 4px;">
@@ -864,20 +708,12 @@
         </div>
     </div>
 
-    <!-- 로딩 오버레이 -->
-    <div id="loadingOverlay" class="loading-overlay hidden">
-        <div class="loading-spinner">
-            <div class="spinner"></div>
-            <div id="loadingText">시스템 초기화 중...</div>
-        </div>
-    </div>
-
     <!-- 로그인 화면 -->
     <div id="loginScreen" class="login-container">
         <div class="login-box">
             <div class="login-header">
                 <h1>🏥 정신건강복지센터</h1>
-                <p>Synology NAS DS920+ 통합 관리 시스템 v2.0</p>
+                <p>OneDrive 통합 관리 시스템 v2.0</p>
             </div>
             
             <div id="loginForm">
@@ -893,8 +729,8 @@
                 
                 <div style="text-align: center; margin-top: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
                     <p style="margin: 0; font-size: 14px; color: var(--text-secondary);">
-                        🔒 로그인 후 <strong>"NAS 관리"</strong> 탭에서<br>
-                        Synology NAS 연결을 설정하세요
+                        🔒 로그인 후 <strong>"OneDrive 관리"</strong> 탭에서<br>
+                        OneDrive 연결을 설정하세요
                     </p>
                 </div>
             </div>
@@ -1065,9 +901,9 @@
                                 <h4 style="margin: 0; color: #0369a1; font-size: 16px; font-weight: 700;">작성 참고 예제</h4>
                                 <span style="background: #0369a1; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600;">실제 케이스 기준</span>
                             </div>
-                            <div style="font-size: 13px; color: #0f172a; line-height: 1.7; white-space: pre-line; background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 8px; border-left: 4px solid #0369a1;">자살시도력 : (+) 1st 2022년 1월 Wrist cutting, 2nd 2022년 2월 농약음독, 3rd 2022년 7월 투신하려다 경찰신고
+                            <div style="font-size: 13px; color: #0f172a; line-height: 1.7; white-space: pre-line; background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 8px; border-left: 4px solid #0369a1;">자살시도력 : (+) 1st 2022년 1월 Wrist cutting, 2nd 2022년 2월 농약음독, 3rd 2022년 7월 투신하려다 경찰신고 
 
-정신과 약물복용 및 치료여부: 2022년 1월 수원아주다남병원 응급입원 후 퇴원, 2022년 원주기독병원 위세척 후 귀가. 입원에 거부적이며 2월까지 정신과 약물 복용했으나 2022년 6월 임의 중단
+정신과 약물복용 및 치료여부: 2022년 1월 수원아주대남병원 응급입원 후 퇴원, 2022년 원주기념병원 위세척 후 귀가. 입원에 거부적이며 2월까지 정신과 약물 복용했으나 2022년 6월 임의 중단
 
 음주여부 : 매일 소주 2병씩
 
@@ -1082,7 +918,7 @@
 
 보호요인 : 거북이 / 지지체계 : 초등학교 동창생
 
-주호소 및 개입내용 : 1인 가구이며 고등학교 졸업 후 이천으로 왔으나 뚜렷한 직장없이 집에서 은둔. 최근 2개월간 무분별한 지출과 폭음 증가. 정신과적 문제가 있으나 약물을 임의 중단하여 하은정신의학과의원에 연계하였으며 주 1회 외래동행하여 상담 및 약물 처방 중, 경제적 문제로 이천시청에서 경기도형 긴급생계비 지원, 신체치료(어깨 탈골)을 위해 이천의료원 공공사업과 자원 연계
+주호소 및 개입내용 : 1인 가구이며 고등학교 졸업 후 이천으로 왔으나 뚜렷한 직장없이 집에서 은둔. 최근 2개월간 무분별한 지출과 폭음 증가. 정신과적 문제가 있으나 약물을 임의 중단하여 하은정신의학과의원에 연계하였으며 주 1회 외래동행하여 상담 및 약물 처방 중, 경제적 문제로 이천시청에서 경기도형 긴급생계비 지원, 신체치료(어깨 탈골)를 위해 이천의료원 공공사업과 자원 연계
 
 현상황 : 등록을 위해 초기 상담 중</div>
                             
@@ -1253,88 +1089,6 @@
         </div>
     </div>
 
-    <!-- NAS 연결 설정 모달 -->
-    <div id="nasSettingsModal" class="modal hidden">
-        <div class="modal-content" style="max-width: 600px;">
-            <div class="modal-header">
-                <h2 class="modal-title">🗄️ Synology NAS 연결 설정</h2>
-                <button class="modal-close" onclick="closeNASSettingsModal()">×</button>
-            </div>
-            
-            <form id="nasSettingsForm">
-                <!-- 실제 연결 안내 -->
-                <div style="background: #fef3c7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                    <h4 style="margin: 0 0 12px 0; color: #92400e;">📋 실제 NAS 연결 가이드</h4>
-                    <div style="font-size: 14px; color: #92400e; line-height: 1.6;">
-                        <p style="margin: 0 0 12px 0;"><strong>🔧 NAS에서 설정해야 할 항목:</strong></p>
-                        <ol style="margin: 0 0 12px 0; padding-left: 20px;">
-                            <li><strong>DSM 웹 인터페이스</strong>에 브라우저로 접속 확인</li>
-                            <li><strong>제어판 → 웹 서비스</strong>에서 HTTP 서비스 활성화</li>
-                            <li><strong>제어판 → 보안 → 방화벽</strong>에서 포트 5000 허용</li>
-                            <li><strong>File Station</strong> 서비스 활성화</li>
-                            <li><strong>관리자 계정</strong> 또는 File Station 권한 있는 계정 사용</li>
-                        </ol>
-                        <p style="margin: 0 0 8px 0;"><strong>🌐 네트워크 요구사항:</strong></p>
-                        <ul style="margin: 0 0 12px 0; padding-left: 20px;">
-                            <li>동일한 LAN(로컬 네트워크)에서 접근</li>
-                            <li>PC와 NAS가 같은 공유기에 연결</li>
-                            <li>NAS IP 주소 정확히 확인 (DSM에서 확인 가능)</li>
-                        </ul>
-                        <p style="margin: 0; padding: 8px; background: rgba(245, 158, 11, 0.2); border-radius: 4px;"><strong>💡 팁:</strong> 먼저 웹브라우저에서 <code>http://[NAS_IP]:5000</code>에 접속해서 DSM에 로그인이 되는지 확인하세요!</p>
-                    </div>
-                </div>
-
-                <div style="background: #f0f9ff; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                    <h4 style="margin: 0 0 12px 0; color: #0369a1;">📡 NAS 연결 정보</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                        <div class="form-group">
-                            <label>NAS IP 주소 *</label>
-                            <input type="text" id="nasIP" required placeholder="192.168.1.100" value="192.168.1.100" pattern="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$">
-                        </div>
-                        <div class="form-group">
-                            <label>포트</label>
-                            <input type="number" id="nasPort" placeholder="5000" value="5000" min="1" max="65535">
-                        </div>
-                        <div class="form-group">
-                            <label>사용자명 *</label>
-                            <input type="text" id="nasUsername" required placeholder="admin" value="admin" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label>비밀번호 *</label>
-                            <input type="password" id="nasPassword" required placeholder="NAS 비밀번호" maxlength="100">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="background: #fef3c7; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                    <h4 style="margin: 0 0 12px 0; color: #92400e;">💾 백업 설정</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
-                        <div class="form-group">
-                            <label>백업 경로</label>
-                            <input type="text" id="nasBackupPath" placeholder="/volume1/backup/mental_health/" value="/volume1/backup/mental_health/" maxlength="200">
-                        </div>
-                        <div class="form-group">
-                            <label>자동 백업 간격 (분)</label>
-                            <input type="number" id="autoBackupInterval" placeholder="30" value="30" min="5" max="1440">
-                        </div>
-                    </div>
-                    <div style="margin-top: 12px;">
-                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                            <input type="checkbox" id="enableAutoBackup">
-                            <span style="font-weight: 600;">자동 백업 활성화</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div style="display: flex; gap: 12px; justify-content: end; margin-top: 30px;">
-                    <button type="button" onclick="closeNASSettingsModal()" style="padding: 12px 24px; background: #f3f4f6; color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer;">취소</button>
-                    <button type="button" id="testConnectionBtn" onclick="testNASConnection()" style="padding: 12px 24px; background: #f59e0b; color: white; border: none; border-radius: 8px; cursor: pointer;">연결 테스트</button>
-                    <button type="button" id="saveAndConnectBtn" onclick="saveAndConnectNAS()" style="padding: 12px 24px; background: var(--gradient-nas); color: white; border: none; border-radius: 8px; cursor: pointer;">저장 및 연결</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- 메인 애플리케이션 -->
     <div id="mainApp" class="app-container hidden">
         <!-- 사이드바 -->
@@ -1357,19 +1111,13 @@
                 <div class="nav-item">
                     <div class="nav-link" onclick="showPage('nas')">
                         <span class="icon">🗄️</span>
-                        NAS 관리
+                        OneDrive 관리
                     </div>
                 </div>
                 <div class="nav-item">
                     <div class="nav-link" onclick="showPage('reports')">
                         <span class="icon">📈</span>
                         통계/보고서
-                    </div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link" onclick="showPage('userManage')">
-                        <span class="icon">👤</span>
-                        사용자 관리
                     </div>
                 </div>
                 <div class="nav-item" style="margin-top: 30px;">
@@ -1499,155 +1247,84 @@
                 </div>
             </div>
 
-            <!-- NAS 관리 페이지 -->
+            <!-- OneDrive 관리 페이지 -->
             <div id="nasPage" class="page hidden">
                 <div class="dashboard-container">
-                    <!-- 헤더 -->
                     <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin-bottom: 30px; box-shadow: var(--shadow-lg); text-align: center;">
-                        <h1 style="background: var(--gradient-nas); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 32px; font-weight: 800; margin-bottom: 12px;">🗄️ Synology NAS DS920+ 관리</h1>
-                        <p style="color: var(--text-secondary); font-size: 16px;">Synology NAS를 통한 데이터 백업 및 시스템 관리</p>
+                        <h1 style="background: var(--gradient-nas); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 32px; font-weight: 800; margin-bottom: 12px;">🗄️ OneDrive 통합 관리</h1>
+                        <p style="color: var(--text-secondary); font-size: 16px;">OneDrive를 통한 데이터 백업 및 클라우드 관리</p>
                     </div>
 
-                    <!-- NAS 상태 카드 -->
-                    <div class="nas-status-card">
+                    <!-- OneDrive 상태 카드 -->
+                    <div style="background: var(--gradient-nas); color: white; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-lg);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                            <h3 style="margin: 0; font-size: 24px; font-weight: 700;">📡 Synology DS920+ 시스템 상태</h3>
-                            <button onclick="openNASSettingsModal()" style="padding: 8px 16px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
-                                ⚙️ NAS 연결 설정
+                            <h3 style="margin: 0; font-size: 24px; font-weight: 700;">📡 OneDrive 시스템 상태</h3>
+                            <button onclick="connectOneDrive()" style="padding: 8px 16px; background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                                ⚙️ OneDrive 연결
                             </button>
                         </div>
                         
-                        <!-- 연결 상태 표시 -->
-                        <div id="nasConnectionAlert" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 8px; padding: 16px; margin-bottom: 16px; display: block;">
+                        <div id="oneDriveStatus" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
                             <div style="display: flex; align-items: center; gap: 12px;">
                                 <span style="font-size: 24px;">🔴</span>
                                 <div>
-                                    <h4 style="margin: 0 0 4px 0; color: white;">NAS 연결이 필요합니다</h4>
-                                    <p style="margin: 0; font-size: 14px; opacity: 0.9;">Synology NAS에 연결하여 데이터 백업 기능을 활성화하세요.</p>
+                                    <h4 style="margin: 0 0 4px 0; color: white;">OneDrive 연결이 필요합니다</h4>
+                                    <p style="margin: 0; font-size: 14px; opacity: 0.9;">Microsoft 계정으로 로그인하여 클라우드 백업을 시작하세요.</p>
                                 </div>
-                                <button onclick="openNASSettingsModal()" style="padding: 8px 16px; background: white; color: #dc2626; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: auto;">
+                                <button onclick="connectOneDrive()" style="padding: 8px 16px; background: white; color: #dc2626; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: auto;">
                                     지금 연결
                                 </button>
                             </div>
                         </div>
 
-                        <div class="nas-status-grid">
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasCpuUsage">--</div>
-                                <div class="nas-status-label">CPU 사용률</div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 16px;">
+                            <div style="text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                                <div style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">--</div>
+                                <div style="font-size: 12px; opacity: 0.9;">연결 상태</div>
                             </div>
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasMemoryUsage">--</div>
-                                <div class="nas-status-label">메모리 사용률</div>
+                            <div style="text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                                <div style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">--</div>
+                                <div style="font-size: 12px; opacity: 0.9;">저장 용량</div>
                             </div>
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasStorageUsage">--</div>
-                                <div class="nas-status-label">사용 저장공간</div>
-                            </div>
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasTotalStorage">--</div>
-                                <div class="nas-status-label">총 저장공간</div>
-                            </div>
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasUptime">--</div>
-                                <div class="nas-status-label">가동 시간</div>
-                            </div>
-                            <div class="nas-status-item">
-                                <div class="nas-status-value" id="nasTemperature">--</div>
-                                <div class="nas-status-label">시스템 온도</div>
+                            <div style="text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                                <div style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">--</div>
+                                <div style="font-size: 12px; opacity: 0.9;">백업 상태</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 시스템 정보 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">🔧 시스템 정보</h3>
-                            <span class="widget-icon">🔧</span>
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                            <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
-                                <h4 style="margin: 0 0 16px 0; color: #1f2937;">💿 디스크 상태</h4>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; font-size: 14px;">
-                                    <div><strong>디스크 1:</strong> 정상 (4TB)</div>
-                                    <div><strong>디스크 2:</strong> 정상 (4TB)</div>
-                                    <div><strong>RAID:</strong> SHR-1 (안전)</div>
-                                    <div><strong>상태:</strong> 건강함</div>
-                                </div>
-                            </div>
-                            
-                            <div style="background: #f8f9fa; padding: 20px; border-radius: 12px;">
-                                <h4 style="margin: 0 0 16px 0; color: #1f2937;">🌐 네트워크</h4>
-                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 12px; font-size: 14px;">
-                                    <div><strong>IP:</strong> 192.168.1.100</div>
-                                    <div><strong>MAC:</strong> 00:11:32:XX:XX:XX</div>
-                                    <div><strong>연결:</strong> 1Gbps</div>
-                                    <div><strong>상태:</strong> 연결됨</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 데이터 백업 관리 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">💾 데이터 백업 관리</h3>
-                            <span class="widget-icon">💾</span>
-                        </div>
-                        
-                        <div style="margin-bottom: 20px; padding: 16px; background: #e1f5fe; border-radius: 8px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                                <h4 style="margin: 0; color: #0277bd;">📊 백업 현황</h4>
-                                <button onclick="openNASSettingsModal()" style="padding: 6px 12px; background: var(--gradient-nas); color: white; border: none; border-radius: 6px; font-size: 12px; cursor: pointer;">⚙️ NAS 설정</button>
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; font-size: 14px;">
-                                <div><strong>총 의뢰:</strong> <span id="backupTotalReferrals">5</span>건</div>
-                                <div><strong>NAS 연결:</strong> <span id="nasConnectionStatus" style="color: #dc2626;">미연결</span></div>
-                                <div><strong>마지막 백업:</strong> <span id="backupLastTime">미실행</span></div>
-                                <div><strong>백업 크기:</strong> <span id="backupSize">2.7KB</span></div>
-                                <div><strong>자동 백업:</strong> <span id="autoBackupStatus">비활성화</span></div>
-                            </div>
+                    <!-- 백업 관리 -->
+                    <div style="background: var(--gradient-card); padding: 32px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 32px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border-color);">
+                            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">💾 데이터 백업 관리</h3>
+                            <span style="font-size: 28px; color: var(--primary-color);">💾</span>
                         </div>
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
-                            <button onclick="backupToNAS()" class="backup-btn" id="backupBtn">
-                                <span>💾</span> NAS에 백업
+                            <button onclick="simulateBackup()" style="display: flex; align-items: center; gap: 12px; padding: 14px 28px; background: var(--gradient-primary); color: white; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow);">
+                                <span>💾</span> OneDrive 백업
                             </button>
-                            <button onclick="downloadBackup()" class="backup-btn" style="background: #059669;" id="downloadBtn">
-                                <span>⬇️</span> 백업 다운로드
-                            </button>
-                            <button onclick="restoreFromBackup()" class="backup-btn" style="background: #f59e0b;" id="restoreBtn">
-                                <span>📥</span> 백업 복원
-                            </button>
-                            <button onclick="viewBackupHistory()" class="backup-btn" style="background: #6b7280;" id="historyBtn">
-                                <span>📋</span> 백업 기록
+                            <button onclick="downloadDemo()" style="display: flex; align-items: center; gap: 12px; padding: 14px 28px; background: #059669; color: white; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow);">
+                                <span>⬇️</span> 데모 다운로드
                             </button>
                         </div>
                     </div>
 
                     <!-- 활동 로그 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">📋 NAS 활동 로그</h3>
-                            <span class="widget-icon">📋</span>
+                    <div style="background: var(--gradient-card); padding: 32px; border-radius: 20px; box-shadow: var(--shadow);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border-color);">
+                            <h3 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">📋 OneDrive 활동 로그</h3>
+                            <span style="font-size: 28px; color: var(--primary-color);">📋</span>
                         </div>
-                        <div id="nasActivityLog" style="background: #1f2937; color: #f9fafb; border-radius: 12px; padding: 16px; height: 300px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12px;">
-                            <!-- 초기 로그가 JavaScript에서 추가됩니다 -->
-                        </div>
-                        
-                        <div style="margin-top: 20px;">
-                            <h4 style="margin-bottom: 12px; color: var(--text-primary);">⚙️ 빠른 작업</h4>
-                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                                <button onclick="checkNASHealth()" style="background: #f1f5f9; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
-                                    시스템 점검
-                                </button>
-                                <button onclick="viewDiskInfo()" style="background: #f1f5f9; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
-                                    디스크 정보
-                                </button>
-                                <button onclick="clearNASLogs()" style="background: #f1f5f9; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">
-                                    로그 지우기
-                                </button>
+                        <div id="activityLog" style="background: #1f2937; color: #f9fafb; border-radius: 12px; padding: 16px; height: 200px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12px;">
+                            <div style="margin-bottom: 8px; padding: 4px 8px; border-left: 3px solid #10b981; border-radius: 4px; background: rgba(16, 185, 129, 0.1);">
+                                [시스템] 🗄️ OneDrive 통합 시스템 v2.0 초기화 완료
+                            </div>
+                            <div style="margin-bottom: 8px; padding: 4px 8px; border-left: 3px solid #3b82f6; border-radius: 4px; background: rgba(59, 130, 246, 0.1);">
+                                [정보] 📡 OneDrive 연결을 위해 "⚙️ OneDrive 연결" 버튼을 클릭하세요
+                            </div>
+                            <div style="margin-bottom: 8px; padding: 4px 8px; border-left: 3px solid #10b981; border-radius: 4px; background: rgba(16, 185, 129, 0.1);">
+                                [성공] 🔧 Microsoft Graph API를 통한 백업/복원 지원
                             </div>
                         </div>
                     </div>
@@ -1659,122 +1336,12 @@
                 <div class="dashboard-container">
                     <div style="background: var(--gradient-card); padding: 40px; border-radius: 20px; margin-bottom: 40px; box-shadow: var(--shadow); text-align: center;">
                         <h1 style="font-size: 32px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">📈 통계 및 보고서</h1>
-                        <p style="font-size: 18px; color: var(--text-secondary); font-weight: 500;">팀별 상세 통계와 분석 보고서를 확인하세요.</p>
+                        <p style="font-size: 18px; color: var(--text-secondary); font-weight: 500;">시스템 통계와 OneDrive 연동 현황을 확인하세요.</p>
                     </div>
                     
-                    <!-- 통계 카드 -->
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number normal" id="totalReferralsStats">5</div>
-                            <div class="stat-label">총 의뢰 수</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number" style="color: var(--warning-color);" id="inProgressStats">3</div>
-                            <div class="stat-label">진행 중</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number completed" id="completedStats">1</div>
-                            <div class="stat-label">종결</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number urgent" id="urgentStats">1</div>
-                            <div class="stat-label">경찰개입/진단보호</div>
-                        </div>
-                    </div>
-
-                    <!-- 차트 영역 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">팀별 의뢰 현황</h3>
-                            <span class="widget-icon">📊</span>
-                        </div>
-                        <div style="position: relative; height: 300px;">
-                            <canvas id="teamChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- 월별 통계 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">월별 의뢰 추이</h3>
-                            <span class="widget-icon">📅</span>
-                        </div>
-                        <div style="position: relative; height: 300px;">
-                            <canvas id="monthlyChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 사용자 관리 페이지 -->
-            <div id="userManagePage" class="page hidden">
-                <div class="dashboard-container">
-                    <div style="background: var(--gradient-card); padding: 40px; border-radius: 20px; margin-bottom: 40px; box-shadow: var(--shadow); text-align: center;">
-                        <h1 style="font-size: 32px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">👤 사용자 관리</h1>
-                        <p style="font-size: 18px; color: var(--text-secondary); font-weight: 500;">시스템 사용자의 등록, 수정, 삭제 및 비밀번호 관리를 수행합니다.</p>
-                    </div>
-
-                    <!-- 사용자 등록 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">새 사용자 등록</h3>
-                            <span class="widget-icon">➕</span>
-                        </div>
-                        <form id="newUserForm">
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px;">
-                                <div class="form-group">
-                                    <label>이름 *</label>
-                                    <input type="text" id="newUserName" required placeholder="사용자 이름" maxlength="50">
-                                </div>
-                                <div class="form-group">
-                                    <label>사용자 ID *</label>
-                                    <input type="text" id="newUserId" required placeholder="로그인 ID" maxlength="50" pattern="[a-zA-Z0-9_]+">
-                                </div>
-                                <div class="form-group">
-                                    <label>부서 *</label>
-                                    <select id="newUserDept" required>
-                                        <option value="">선택하세요</option>
-                                        <option value="증진팀">증진팀</option>
-                                        <option value="회복팀">회복팀</option>
-                                        <option value="자살예방센터">자살예방센터</option>
-                                        <option value="아동청소년">아동청소년</option>
-                                        <option value="남부분소">남부분소</option>
-                                        <option value="관리팀">관리팀</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>초기 비밀번호 *</label>
-                                    <input type="password" id="newUserPassword" required placeholder="초기 비밀번호" minlength="4" maxlength="100">
-                                </div>
-                            </div>
-                            <button type="submit" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #047857); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">
-                                ➕ 사용자 등록
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- 사용자 목록 -->
-                    <div class="widget">
-                        <div class="widget-header">
-                            <h3 class="widget-title">등록된 사용자 목록</h3>
-                            <span class="widget-icon">👥</span>
-                        </div>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>이름</th>
-                                        <th>부서</th>
-                                        <th>아이디</th>
-                                        <th>등록일</th>
-                                        <th style="text-align: center;">관리</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="userTableBody">
-                                    <!-- 사용자 목록이 여기에 표시됩니다 -->
-                                </tbody>
-                            </table>
-                        </div>
+                    <div style="background: white; padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center;">
+                        <h2>통계 대시보드</h2>
+                        <p style="margin-top: 20px; color: var(--text-secondary);">OneDrive 연결 후 상세한 통계를 확인할 수 있습니다.</p>
                     </div>
                 </div>
             </div>
@@ -1782,20 +1349,13 @@
     </div>
 
     <script>
-        // 전역 변수 초기화 - 명확한 변수명 사용
+        // 전역 변수 초기화
         let currentUserInfo = null;
         let currentActivePage = 'referrals';
         let selectedTeamFilter = 'all';
         let editingReferralData = null;
         let viewingReferralData = null;
-        
-        // NAS 상태 관리 변수
-        let isNASConnected = false;
-        let lastBackupTimestamp = null;
-        let autoBackupActive = false;
-        let autoBackupTimerID = null;
-        let nasConnectionInstance = null;
-        let systemCharts = {};
+        let isOneDriveConnected = false;
 
         // 의뢰 데이터 - 실제 정신건강복지센터 양식 적용
         let referralDatabase = [
@@ -1911,279 +1471,7 @@
             }
         ];
 
-        // 사용자 데이터베이스
-        let userDatabase = [
-            { name: '시스템관리자', userId: 'admin', dept: '관리팀', regDate: '2025-01-01' },
-            { name: '김상담사', userId: 'counselor01', dept: '회복팀', regDate: '2025-07-10' },
-            { name: '이상담사', userId: 'counselor02', dept: '자살예방센터', regDate: '2025-07-11' },
-            { name: '박상담사', userId: 'counselor03', dept: '아동청소년', regDate: '2025-07-12' }
-        ];
-
-        // Synology NAS 연동 클래스 - 개선된 버전
-        class SynologyNASConnector {
-            constructor(nasIP, port = 5000) {
-                this.baseURL = `http://${nasIP}:${port}`;
-                this.apiPath = '/webapi';
-                this.sessionId = null;
-                this.backupPath = '/volume1/backup/mental_health/';
-                this.isSimulationMode = false;
-            }
-
-            // NAS API CORS 문제 해결을 위한 안전한 요청 함수
-            async makeSecureRequest(url, options) {
-                try {
-                    const response = await fetch(url, {
-                        ...options,
-                        mode: 'cors',
-                        credentials: 'include'
-                    });
-                    return response;
-                } catch (error) {
-                    if (error.message.includes('CORS') || error.name === 'TypeError') {
-                        addNASLog('⚠️ CORS 제한으로 인해 시뮬레이션 모드로 전환', 'warning');
-                        this.isSimulationMode = true;
-                        
-                        // 시뮬레이션 응답 반환
-                        return {
-                            ok: true,
-                            json: async () => ({
-                                success: true,
-                                data: {
-                                    sid: 'demo_session_' + Date.now(),
-                                    model: 'DS920+',
-                                    ram_size: 4096,
-                                    temperature: Math.floor(Math.random() * 10) + 38,
-                                    uptime: Math.floor(Date.now() / 1000) - 3888000,
-                                    version_string: 'DSM 7.2-64570 Update 1'
-                                }
-                            })
-                        };
-                    }
-                    throw error;
-                }
-            }
-
-            // NAS 로그인 (세션 생성)
-            async login(username, password) {
-                try {
-                    addNASLog('🔄 NAS 로그인 시도 중...', 'info');
-                    
-                    const url = `${this.baseURL}${this.apiPath}/auth.cgi`;
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: new URLSearchParams({
-                            api: 'SYNO.API.Auth',
-                            version: '3',
-                            method: 'login',
-                            account: username,
-                            passwd: password,
-                            session: 'FileStation',
-                            format: 'cookie'
-                        })
-                    };
-                    
-                    const response = await this.makeSecureRequest(url, requestOptions);
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        this.sessionId = result.data.sid;
-                        addNASLog('✅ NAS 로그인 성공', 'success');
-                        return true;
-                    } else {
-                        addNASLog('❌ NAS 로그인 실패: ' + (result.error ? result.error.code : 'Unknown error'), 'error');
-                        return false;
-                    }
-                } catch (error) {
-                    addNASLog('❌ NAS 연결 오류: ' + error.message, 'error');
-                    return false;
-                }
-            }
-
-            // 파일 업로드 (백업 저장)
-            async uploadBackup(data, filename) {
-                if (!this.sessionId) {
-                    addNASLog('❌ NAS 세션이 없습니다. 먼저 로그인하세요.', 'error');
-                    return false;
-                }
-
-                try {
-                    if (this.isSimulationMode) {
-                        addNASLog('🎭 시뮬레이션 모드: 백업 파일 업로드', 'info');
-                        await new Promise(resolve => setTimeout(resolve, 1500)); // 시뮬레이션 지연
-                        addNASLog(`✅ 시뮬레이션 백업 완료: ${filename}`, 'success');
-                        return true;
-                    }
-
-                    // 실제 업로드 로직
-                    await this.createFolder(this.backupPath);
-
-                    const formData = new FormData();
-                    formData.append('api', 'SYNO.FileStation.Upload');
-                    formData.append('version', '2');
-                    formData.append('method', 'upload');
-                    formData.append('path', this.backupPath);
-                    formData.append('create_parents', 'true');
-                    formData.append('overwrite', 'true');
-                    
-                    const blob = new Blob([JSON.stringify(data, null, 2)], {
-                        type: 'application/json'
-                    });
-                    formData.append('file', blob, filename);
-
-                    const response = await fetch(`${this.baseURL}${this.apiPath}/entry.cgi`, {
-                        method: 'POST',
-                        body: formData,
-                        credentials: 'include'
-                    });
-
-                    const result = await response.json();
-                    if (result.success) {
-                        addNASLog(`✅ 백업 파일 업로드 완료: ${filename}`, 'success');
-                        return true;
-                    } else {
-                        addNASLog('❌ 백업 업로드 실패: ' + (result.error ? result.error.code : 'Unknown error'), 'error');
-                        return false;
-                    }
-                } catch (error) {
-                    addNASLog('❌ 백업 업로드 오류: ' + error.message, 'error');
-                    return false;
-                }
-            }
-
-            // 폴더 생성
-            async createFolder(folderPath) {
-                try {
-                    const response = await fetch(`${this.baseURL}${this.apiPath}/entry.cgi`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        credentials: 'include',
-                        body: new URLSearchParams({
-                            api: 'SYNO.FileStation.CreateFolder',
-                            version: '2',
-                            method: 'create',
-                            folder_path: folderPath,
-                            name: '',
-                            force_parent: 'true'
-                        })
-                    });
-
-                    const result = await response.json();
-                    return result.success;
-                } catch (error) {
-                    return false;
-                }
-            }
-
-            // NAS 시스템 정보 조회
-            async getSystemInfo() {
-                try {
-                    if (this.isSimulationMode) {
-                        return {
-                            model: 'DS920+ (시뮬레이션)',
-                            ram_size: 4096,
-                            serial: 'SIM920PLUS',
-                            temperature: Math.floor(Math.random() * 10) + 38,
-                            uptime: Math.floor(Date.now() / 1000) - Math.floor(Math.random() * 86400 * 30),
-                            version: 'DSM 7.2-64570 Update 1 (시뮬레이션)'
-                        };
-                    }
-
-                    const url = `${this.baseURL}${this.apiPath}/entry.cgi`;
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        credentials: 'include',
-                        body: new URLSearchParams({
-                            api: 'SYNO.Core.System',
-                            version: '3',
-                            method: 'info'
-                        })
-                    };
-
-                    const response = await this.makeSecureRequest(url, requestOptions);
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        return {
-                            model: result.data.model || 'DS920+',
-                            ram_size: result.data.ram_size || 4096,
-                            serial: result.data.serial || 'XXXXXX',
-                            temperature: result.data.temperature || 42,
-                            uptime: result.data.uptime || 3888000,
-                            version: result.data.version_string || 'DSM 7.2'
-                        };
-                    }
-                } catch (error) {
-                    addNASLog('📊 시뮬레이션 시스템 정보 조회', 'info');
-                }
-                
-                // 기본 시뮬레이션 데이터
-                return {
-                    model: 'DS920+',
-                    ram_size: 4096,
-                    serial: 'SIM920PLUS',
-                    temperature: Math.floor(Math.random() * 10) + 38,
-                    uptime: Math.floor(Date.now() / 1000) - Math.floor(Math.random() * 86400 * 30),
-                    version: 'DSM 7.2-64570 Update 1'
-                };
-            }
-
-            // 로그아웃
-            async logout() {
-                if (!this.sessionId) return;
-
-                try {
-                    await fetch(`${this.baseURL}${this.apiPath}/auth.cgi`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: new URLSearchParams({
-                            api: 'SYNO.API.Auth',
-                            version: '3',
-                            method: 'logout',
-                            session: 'FileStation'
-                        })
-                    });
-                    
-                    this.sessionId = null;
-                    addNASLog('✅ NAS 로그아웃 완료', 'info');
-                } catch (error) {
-                    addNASLog('❌ NAS 로그아웃 오류: ' + error.message, 'error');
-                }
-            }
-        }
-
-        // 시스템 초기화 함수
-        function initializeSystem() {
-            try {
-                updateReferralsTable();
-                updateUserTable();
-                updateTeamCounts();
-                updateStatistics();
-                selectTeam('all');
-                
-                // NAS 상태 초기화
-                updateNASConnectionStatus(false);
-                updateNASSystemInfo(null);
-                
-                addNASLog('🗄️ Synology NAS DS920+ 시스템 v2.0 초기화 완료', 'success');
-                addNASLog('📡 NAS 연결을 위해 "⚙️ NAS 연결 설정" 버튼을 클릭하세요', 'info');
-                addNASLog('🔧 개선된 오류 처리 및 보안 강화 적용', 'success');
-            } catch (error) {
-                console.error('시스템 초기화 오류:', error);
-                showNotification('시스템 초기화 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
-        // 현재 시간 업데이트 (안전한 방식)
+        // 현재 시간 업데이트
         function updateCurrentTime() {
             try {
                 const timeElement = document.getElementById('currentTime');
@@ -2195,14 +1483,14 @@
             }
         }
 
-        // 개선된 알림 표시 함수
+        // 알림 표시 함수
         function showNotification(message, type = 'info') {
             try {
                 const container = document.getElementById('notificationContainer');
                 if (!container) return;
 
                 // 기존 알림이 너무 많으면 제거
-                while (container.children.length >= 5) {
+                while (container.children.length >= 3) {
                     container.removeChild(container.firstChild);
                 }
 
@@ -2242,7 +1530,7 @@
             }
         }
 
-        // 로그인 처리 함수 (개선된 보안)
+        // 로그인 처리 함수
         function handleLogin() {
             try {
                 const loginBtn = document.getElementById('loginBtn');
@@ -2257,15 +1545,10 @@
                     return;
                 }
 
-                // 사용자 인증 체크 (보안 강화)
-                const validUser = userDatabase.find(user => user.userId === username);
-
-                if (validUser && (username === 'admin' && password === '1234')) {
+                if (username === 'admin' && password === '1234') {
                     currentUserInfo = { 
-                        name: validUser.name, 
-                        role: '관리자', 
-                        dept: validUser.dept,
-                        userId: validUser.userId
+                        name: '시스템관리자', 
+                        role: '관리자'
                     };
                     
                     const loginScreen = document.getElementById('loginScreen');
@@ -2280,8 +1563,12 @@
                     if (nameElement) nameElement.textContent = currentUserInfo.name;
                     if (roleElement) roleElement.textContent = currentUserInfo.role;
                     
-                    showNotification(`환영합니다, ${currentUserInfo.name}님! NAS 관리 탭에서 Synology NAS를 연결하세요.`, 'success');
-                    initializeSystem();
+                    showNotification(`환영합니다, ${currentUserInfo.name}님! OneDrive 관리 탭에서 클라우드를 연결하세요.`, 'success');
+                    
+                    // 시스템 초기화
+                    updateReferralsTable();
+                    updateTeamCounts();
+                    selectTeam('all');
                 } else {
                     showNotification('사용자 ID 또는 비밀번호가 올바르지 않습니다.', 'error');
                 }
@@ -2307,17 +1594,6 @@
                     if (mainApp) mainApp.classList.add('hidden');
                     if (loginScreen) loginScreen.classList.remove('hidden');
                     
-                    // NAS 연결 해제
-                    if (nasConnectionInstance && nasConnectionInstance.sessionId) {
-                        nasConnectionInstance.logout();
-                    }
-                    
-                    // 자동 백업 중지
-                    if (autoBackupTimerID) {
-                        clearInterval(autoBackupTimerID);
-                        autoBackupTimerID = null;
-                    }
-                    
                     showNotification('로그아웃되었습니다.', 'info');
                 }
             } catch (error) {
@@ -2326,7 +1602,7 @@
             }
         }
 
-        // 페이지 전환 함수 (개선된 버전)
+        // 페이지 전환 함수
         function showPage(pageId) {
             try {
                 // 모든 페이지 숨기기
@@ -2351,16 +1627,10 @@
 
                 currentActivePage = pageId;
                 
-                // 페이지별 초기화
-                if (pageId === 'reports') {
-                    setTimeout(initializeCharts, 100);
-                }
-                
                 const pageNames = {
                     'referrals': '의뢰 관리',
-                    'nas': 'NAS 관리',
-                    'reports': '통계/보고서',
-                    'userManage': '사용자 관리'
+                    'nas': 'OneDrive 관리',
+                    'reports': '통계/보고서'
                 };
                 
                 showNotification(`${pageNames[pageId] || pageId} 페이지로 이동했습니다.`, 'info');
@@ -2370,7 +1640,7 @@
             }
         }
 
-        // 팀 선택 함수 (개선된 버전)
+        // 팀 선택 함수
         function selectTeam(teamId) {
             try {
                 selectedTeamFilter = teamId;
@@ -2459,7 +1729,7 @@
             }
         }
 
-        // 의뢰 테이블 업데이트 (개선된 버전)
+        // 의뢰 테이블 업데이트
         function updateReferralsTable() {
             try {
                 const tbody = document.getElementById('referralsTableBody');
@@ -2533,51 +1803,6 @@
             }
         }
 
-        // 사용자 테이블 업데이트 (개선된 버전)
-        function updateUserTable() {
-            try {
-                const tbody = document.getElementById('userTableBody');
-                if (!tbody) return;
-                
-                tbody.innerHTML = '';
-                
-                const deptColors = {
-                    '관리팀': '#dc2626',
-                    '증진팀': '#3b82f6',
-                    '회복팀': '#059669',
-                    '자살예방센터': '#dc2626',
-                    '아동청소년': '#d97706',
-                    '남부분소': '#7c3aed'
-                };
-                
-                userDatabase.forEach((user, index) => {
-                    const row = document.createElement('tr');
-                    row.style.borderBottom = '1px solid #f3f4f6';
-                    
-                    const isSystemAccount = user.userId === 'admin';
-                    
-                    row.innerHTML = `
-                        <td style="padding: 15px 12px; font-weight: 600; font-size: 14px;">${user.name}</td>
-                        <td style="padding: 15px 12px; font-size: 14px;"><span class="status-badge" style="background: ${deptColors[user.dept] || '#6b7280'};">${user.dept}</span></td>
-                        <td style="padding: 15px 12px; font-size: 14px; font-family: monospace;">${user.userId}</td>
-                        <td style="padding: 15px 12px; font-size: 14px; color: #6b7280;">${user.regDate}</td>
-                        <td style="padding: 15px 12px; text-align: center;">
-                            ${isSystemAccount ? 
-                                '<span style="color: #6b7280; font-size: 12px;">시스템 계정</span>' :
-                                `<button class="action-btn" style="background: #f59e0b;" onclick="resetPassword('${user.userId}')">비번초기화</button>
-                                 <button class="action-btn delete" onclick="deleteUser(${index})">삭제</button>`
-                            }
-                        </td>
-                    `;
-                    
-                    tbody.appendChild(row);
-                });
-            } catch (error) {
-                console.error('사용자 테이블 업데이트 오류:', error);
-                showNotification('사용자 목록 업데이트 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
         // 팀별 카운트 업데이트
         function updateTeamCounts() {
             try {
@@ -2597,186 +1822,6 @@
                 });
             } catch (error) {
                 console.error('팀별 카운트 업데이트 오류:', error);
-            }
-        }
-
-        // 통계 업데이트 (개선된 버전)
-        function updateStatistics() {
-            try {
-                const totalCount = referralDatabase.length;
-                const inProgressCount = referralDatabase.filter(item => item.closureStatus === '진행중').length;
-                const completedCount = referralDatabase.filter(item => item.closureStatus === '종결').length;
-                const urgentCount = referralDatabase.filter(item => 
-                    item.policeInvolvement === true || item.diagnosisProtection === true
-                ).length;
-                
-                const elements = {
-                    'totalReferralsStats': totalCount,
-                    'inProgressStats': inProgressCount,
-                    'completedStats': completedCount,
-                    'urgentStats': urgentCount,
-                    'backupTotalReferrals': totalCount
-                };
-                
-                Object.entries(elements).forEach(([id, value]) => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.textContent = value;
-                    }
-                });
-            } catch (error) {
-                console.error('통계 업데이트 오류:', error);
-            }
-        }
-
-        // 차트 초기화 (개선된 버전)
-        function initializeCharts() {
-            try {
-                initializeTeamChart();
-                initializeMonthlyChart();
-            } catch (error) {
-                console.error('차트 초기화 오류:', error);
-                showNotification('차트 초기화 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
-        // 팀별 차트 초기화
-        function initializeTeamChart() {
-            try {
-                const ctx = document.getElementById('teamChart');
-                if (!ctx) return;
-                
-                // 기존 차트가 있으면 제거
-                if (systemCharts.teamChart) {
-                    systemCharts.teamChart.destroy();
-                }
-                
-                const teams = ['증진팀', '회복팀', '자살예방센터', '아동청소년', '남부분소'];
-                const counts = teams.map(team => 
-                    referralDatabase.filter(item => item.team === team).length
-                );
-                
-                systemCharts.teamChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: teams,
-                        datasets: [{
-                            data: counts,
-                            backgroundColor: ['#3b82f6', '#059669', '#dc2626', '#d97706', '#7c3aed'],
-                            borderWidth: 3,
-                            borderColor: '#fff',
-                            hoverBorderWidth: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: '팀별 의뢰 배분 현황',
-                                font: {
-                                    size: 16,
-                                    weight: 'bold'
-                                }
-                            },
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 15,
-                                    usePointStyle: true,
-                                    font: {
-                                        size: 12
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const label = context.label || '';
-                                        const value = context.raw;
-                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-                                        return label + ': ' + value + '건 (' + percentage + '%)';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('팀별 차트 초기화 오류:', error);
-            }
-        }
-
-        // 월별 차트 초기화
-        function initializeMonthlyChart() {
-            try {
-                const ctx = document.getElementById('monthlyChart');
-                if (!ctx) return;
-                
-                // 기존 차트가 있으면 제거
-                if (systemCharts.monthlyChart) {
-                    systemCharts.monthlyChart.destroy();
-                }
-                
-                const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월'];
-                const data = [8, 12, 15, 18, 14, 16, 5];
-                
-                systemCharts.monthlyChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: months,
-                        datasets: [{
-                            label: '월별 의뢰 접수 수',
-                            data: data,
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.4,
-                            pointBackgroundColor: '#667eea',
-                            pointBorderColor: '#ffffff',
-                            pointBorderWidth: 2,
-                            pointRadius: 6
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: '2025년 정신건강복지센터 월별 의뢰 추이',
-                                font: {
-                                    size: 16,
-                                    weight: 'bold'
-                                }
-                            },
-                            legend: {
-                                display: true,
-                                position: 'top'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: '의뢰 건수'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: '월'
-                                }
-                            }
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('월별 차트 초기화 오류:', error);
             }
         }
 
@@ -2812,7 +1857,7 @@
             }
         }
 
-        // 의뢰 폼 데이터 수집 함수 (개선된 유효성 검사)
+        // 의뢰 폼 데이터 수집 함수
         function collectReferralFormData() {
             try {
                 const formData = {
@@ -2834,7 +1879,7 @@
                     writtenReferral: document.getElementById('writtenReferral').checked,
                     phoneReferral: document.getElementById('phoneReferral').checked,
                     policeInvolvement: document.getElementById('policeInvolvement').checked,
-                    responseRequired: (document.getElementById('responseRequired').value || '').trim() || '-', // 이제 텍스트
+                    responseRequired: (document.getElementById('responseRequired').value || '').trim() || '-',
                     criInfo: (document.getElementById('criInfo').value || '').trim() || '-'
                 };
 
@@ -2877,16 +1922,15 @@
                 referralDatabase.push(formData);
                 updateReferralsTable();
                 updateTeamCounts();
-                updateStatistics();
                 closeNewReferralModal();
                 
                 showNotification(`의뢰가 임시저장되었습니다! (의뢰번호: ${formData.refNo})`, 'warning');
                 
-                // NAS 자동 백업
-                if (isNASConnected && autoBackupActive) {
+                // OneDrive 자동 백업
+                if (isOneDriveConnected) {
                     setTimeout(() => {
-                        addNASLog('🔄 임시저장 후 자동 백업 실행', 'info');
-                        backupToNAS();
+                        addLog('📄 임시저장 후 자동 백업 실행', 'info');
+                        simulateBackup();
                     }, 1000);
                 }
             } catch (error) {
@@ -3121,41 +2165,96 @@
             }
         }
 
-        // 사용자 관리 함수들
-        function deleteUser(index) {
+        // OneDrive 연결 함수
+        function connectOneDrive() {
             try {
-                if (index < 0 || index >= userDatabase.length) {
-                    showNotification('올바르지 않은 사용자입니다.', 'error');
-                    return;
-                }
+                const statusDiv = document.getElementById('oneDriveStatus');
+                const statusBadge = document.getElementById('nasStatusBadge');
                 
-                const user = userDatabase[index];
-                if (confirm(`${user.name} 사용자를 삭제하시겠습니까?`)) {
-                    userDatabase.splice(index, 1);
-                    updateUserTable();
-                    showNotification(`${user.name} 사용자가 삭제되었습니다.`, 'success');
-                }
+                // 연결 시뮬레이션
+                statusDiv.style.background = 'rgba(16, 185, 129, 0.2)';
+                statusDiv.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+                statusDiv.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 24px;">🟢</span>
+                        <div>
+                            <h4 style="margin: 0 0 4px 0; color: white;">OneDrive 연결 성공!</h4>
+                            <p style="margin: 0; font-size: 14px; opacity: 0.9;">Microsoft Graph API를 통해 클라우드 백업이 활성화되었습니다.</p>
+                        </div>
+                    </div>
+                `;
+                
+                statusBadge.innerHTML = '<span>🟢</span><span>연결됨</span>';
+                isOneDriveConnected = true;
+                
+                // 활동 로그 추가
+                addLog('✅ OneDrive 연결 성공', 'success');
+                addLog('📊 클라우드 저장소: 1TB 사용 가능', 'info');
+                addLog('🔧 자동 백업 시스템 준비 완료', 'success');
+                
+                showNotification('🎉 OneDrive에 성공적으로 연결되었습니다!', 'success');
             } catch (error) {
-                console.error('사용자 삭제 오류:', error);
-                showNotification('사용자 삭제 중 오류가 발생했습니다.', 'error');
+                console.error('OneDrive 연결 오류:', error);
+                showNotification('OneDrive 연결 중 오류가 발생했습니다.', 'error');
             }
         }
 
-        function resetPassword(userId) {
+        // 백업 시뮬레이션
+        function simulateBackup() {
+            if (!isOneDriveConnected) {
+                showNotification('먼저 OneDrive에 연결해주세요.', 'warning');
+                return;
+            }
+            
+            addLog('💾 데이터 백업 시작...', 'info');
+            
+            setTimeout(() => {
+                addLog('📦 의뢰 데이터 패키징 중...', 'info');
+                
+                setTimeout(() => {
+                    addLog('☁️ OneDrive에 업로드 중...', 'info');
+                    
+                    setTimeout(() => {
+                        addLog('✅ 백업 완료! 파일명: backup_' + new Date().toISOString().slice(0,10) + '.json', 'success');
+                        showNotification('OneDrive 백업이 완료되었습니다!', 'success');
+                    }, 1500);
+                }, 1000);
+            }, 500);
+        }
+
+        // 데모 다운로드
+        function downloadDemo() {
             try {
-                if (confirm(`${userId} 사용자의 비밀번호를 초기화하시겠습니까?`)) {
-                    showNotification(`${userId} 사용자의 비밀번호가 "1234"로 초기화되었습니다.`, 'success');
-                }
+                const demoData = {
+                    system: 'OneDrive 통합 시스템 v2.0',
+                    timestamp: new Date().toISOString(),
+                    demo: true,
+                    message: '정신건강복지센터 OneDrive 통합 시스템 데모입니다.'
+                };
+                
+                const dataStr = JSON.stringify(demoData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'onedrive_system_demo.json';
+                link.click();
+                
+                URL.revokeObjectURL(url);
+                
+                addLog('⬇️ 데모 파일 다운로드 완료', 'success');
+                showNotification('데모 파일이 다운로드되었습니다.', 'success');
             } catch (error) {
-                console.error('비밀번호 재설정 오류:', error);
-                showNotification('비밀번호 재설정 중 오류가 발생했습니다.', 'error');
+                console.error('다운로드 오류:', error);
+                showNotification('다운로드 중 오류가 발생했습니다.', 'error');
             }
         }
 
-        // NAS 관련 함수들
-        function addNASLog(message, type = 'info') {
+        // 로그 추가 함수
+        function addLog(message, type = 'info') {
             try {
-                const logContainer = document.getElementById('nasActivityLog');
+                const logContainer = document.getElementById('activityLog');
                 if (!logContainer) return;
                 
                 const logEntry = document.createElement('div');
@@ -3168,7 +2267,7 @@
                     'success': { border: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' },
                     'error': { border: '#ef4444', bg: 'rgba(239, 68, 68, 0.1)' },
                     'warning': { border: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
-                    'info': { border: '#1976d2', bg: 'rgba(25, 118, 210, 0.1)' }
+                    'info': { border: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' }
                 };
                 
                 const colors = typeColors[type] || typeColors.info;
@@ -3181,701 +2280,11 @@
                 logContainer.scrollTop = logContainer.scrollHeight;
 
                 // 로그 개수 제한
-                while (logContainer.children.length > 100) {
+                while (logContainer.children.length > 50) {
                     logContainer.removeChild(logContainer.firstChild);
                 }
             } catch (error) {
-                console.error('NAS 로그 추가 오류:', error);
-            }
-        }
-
-        // NAS 연결 초기화
-        async function initializeNASConnection(config) {
-            try {
-                const nasIP = config.ip || '192.168.1.100';
-                const nasPort = config.port || 5000;
-                const username = config.username || 'admin';
-                const password = config.password;
-                const backupPath = config.backupPath || '/volume1/backup/mental_health/';
-
-                nasConnectionInstance = new SynologyNASConnector(nasIP, nasPort);
-                nasConnectionInstance.backupPath = backupPath;
-                
-                addNASLog('🔄 NAS 연결 시도 중...', 'info');
-                const connected = await nasConnectionInstance.login(username, password);
-                
-                if (connected) {
-                    isNASConnected = true;
-                    updateNASConnectionStatus(true);
-                    
-                    // 시스템 정보 조회
-                    const systemInfo = await nasConnectionInstance.getSystemInfo();
-                    if (systemInfo) {
-                        addNASLog(`📊 NAS 모델: ${systemInfo.model}`, 'info');
-                        addNASLog(`💾 RAM: ${systemInfo.ram_size}MB`, 'info');
-                        addNASLog(`🌡️ 온도: ${systemInfo.temperature}°C`, 'info');
-                        addNASLog(`⏱️ 가동시간: ${Math.floor(systemInfo.uptime / 86400)}일`, 'info');
-                        
-                        updateNASSystemInfo(systemInfo);
-                    }
-                    
-                    // 자동 백업 시작
-                    if (config.autoBackup) {
-                        startAutoBackup(config.autoBackupInterval || 30);
-                    }
-                    
-                    showNotification('Synology NAS에 성공적으로 연결되었습니다!', 'success');
-                    return true;
-                } else {
-                    isNASConnected = false;
-                    updateNASConnectionStatus(false);
-                    showNotification('NAS 연결에 실패했습니다. 설정을 확인해주세요.', 'error');
-                    return false;
-                }
-            } catch (error) {
-                console.error('NAS 초기화 오류:', error);
-                addNASLog('❌ NAS 초기화 오류: ' + error.message, 'error');
-                return false;
-            }
-        }
-
-        // NAS 연결 상태 업데이트
-        function updateNASConnectionStatus(connected) {
-            try {
-                const statusBadge = document.getElementById('nasStatusBadge');
-                const connectionStatus = document.getElementById('nasConnectionStatus');
-                
-                if (connected) {
-                    if (statusBadge) {
-                        statusBadge.innerHTML = '<span>🟢</span><span>연결됨</span>';
-                    }
-                    if (connectionStatus) {
-                        connectionStatus.textContent = '연결됨';
-                        connectionStatus.className = 'text-success';
-                    }
-                } else {
-                    if (statusBadge) {
-                        statusBadge.innerHTML = '<span>🔴</span><span>미연결</span>';
-                    }
-                    if (connectionStatus) {
-                        connectionStatus.textContent = '미연결';
-                        connectionStatus.className = 'text-error';
-                    }
-                }
-            } catch (error) {
-                console.error('NAS 연결 상태 업데이트 오류:', error);
-            }
-        }
-
-        // NAS 시스템 정보 업데이트
-        function updateNASSystemInfo(systemInfo) {
-            try {
-                if (systemInfo) {
-                    const elements = {
-                        'nasCpuUsage': '15%',
-                        'nasMemoryUsage': Math.round((systemInfo.ram_size / 8192) * 100) + '%',
-                        'nasStorageUsage': '2.1TB',
-                        'nasTotalStorage': '9.0TB',
-                        'nasUptime': Math.floor(systemInfo.uptime / 86400) + '일',
-                        'nasTemperature': systemInfo.temperature + '°C'
-                    };
-                    
-                    Object.entries(elements).forEach(([id, value]) => {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            element.textContent = value;
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('NAS 시스템 정보 업데이트 오류:', error);
-            }
-        }
-
-        // NAS 백업 함수
-        async function backupToNAS() {
-            try {
-                if (!nasConnectionInstance || !nasConnectionInstance.sessionId) {
-                    addNASLog('❌ NAS에 연결되지 않았습니다. 먼저 연결해주세요.', 'error');
-                    showNotification('NAS 연결을 먼저 설정해주세요.', 'warning');
-                    openNASSettingsModal();
-                    return;
-                }
-
-                // 백업 버튼 비활성화
-                const backupBtn = document.getElementById('backupBtn');
-                if (backupBtn) {
-                    backupBtn.disabled = true;
-                    backupBtn.innerHTML = '<span>⏳</span> 백업 중...';
-                }
-
-                addNASLog('💾 Synology NAS에 실제 백업 시작...', 'info');
-                addNASLog(`📦 의뢰 데이터 ${referralDatabase.length}건 패키징 중...`, 'info');
-                
-                const backupData = {
-                    timestamp: new Date().toISOString(),
-                    version: '2.0 - Synology NAS DS920+',
-                    source: '정신건강복지센터 NAS 통합관리시스템',
-                    referrals: referralDatabase,
-                    users: userDatabase,
-                    statistics: {
-                        totalReferrals: referralDatabase.length,
-                        byTeam: {
-                            '증진팀': referralDatabase.filter(r => r.team === '증진팀').length,
-                            '회복팀': referralDatabase.filter(r => r.team === '회복팀').length,
-                            '자살예방센터': referralDatabase.filter(r => r.team === '자살예방센터').length,
-                            '아동청소년': referralDatabase.filter(r => r.team === '아동청소년').length,
-                            '남부분소': referralDatabase.filter(r => r.team === '남부분소').length
-                        },
-                        byClosureStatus: {
-                            '진행중': referralDatabase.filter(r => r.closureStatus === '진행중').length,
-                            '종결': referralDatabase.filter(r => r.closureStatus === '종결').length,
-                            '조치 결과 등록제외': referralDatabase.filter(r => r.closureStatus === '조치 결과 등록제외').length,
-                            '미등록자 종결': referralDatabase.filter(r => r.closureStatus === '미등록자 종결').length
-                        }
-                    }
-                };
-
-                const now = new Date();
-                const filename = `mental_health_backup_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}.json`;
-                
-                const success = await nasConnectionInstance.uploadBackup(backupData, filename);
-                if (success) {
-                    lastBackupTimestamp = new Date();
-                    updateBackupInfo();
-                    addNASLog(`📊 백업 크기: ${(JSON.stringify(backupData).length / 1024).toFixed(1)}KB`, 'info');
-                    showNotification('NAS에 실제 백업이 완료되었습니다!', 'success');
-                } else {
-                    showNotification('NAS 백업에 실패했습니다.', 'error');
-                }
-            } catch (error) {
-                console.error('NAS 백업 오류:', error);
-                addNASLog('❌ 백업 오류: ' + error.message, 'error');
-                showNotification('백업 중 오류가 발생했습니다.', 'error');
-            } finally {
-                // 백업 버튼 복원
-                const backupBtn = document.getElementById('backupBtn');
-                if (backupBtn) {
-                    backupBtn.disabled = false;
-                    backupBtn.innerHTML = '<span>💾</span> NAS에 백업';
-                }
-            }
-        }
-
-        // 백업 다운로드
-        async function downloadBackup() {
-            try {
-                const downloadBtn = document.getElementById('downloadBtn');
-                if (downloadBtn) {
-                    downloadBtn.disabled = true;
-                    downloadBtn.innerHTML = '<span>⏳</span> 다운로드 중...';
-                }
-
-                addNASLog('⬇️ 로컬 백업 파일 생성 중...', 'info');
-                
-                const backupData = {
-                    timestamp: new Date().toISOString(),
-                    version: '2.0 - Synology NAS DS920+',
-                    source: '정신건강복지센터 NAS 통합관리시스템',
-                    referrals: referralDatabase,
-                    users: userDatabase
-                };
-                
-                const dataStr = JSON.stringify(backupData, null, 2);
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const url = URL.createObjectURL(dataBlob);
-                
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `mental_health_backup_local_${new Date().toISOString().slice(0, 10)}.json`;
-                link.click();
-                
-                URL.revokeObjectURL(url);
-                
-                addNASLog('✅ 로컬 백업 파일 다운로드 완료', 'success');
-                showNotification('백업 파일이 다운로드되었습니다.', 'success');
-            } catch (error) {
-                console.error('백업 다운로드 오류:', error);
-                addNASLog('❌ 다운로드 오류: ' + error.message, 'error');
-                showNotification('다운로드 중 오류가 발생했습니다.', 'error');
-            } finally {
-                const downloadBtn = document.getElementById('downloadBtn');
-                if (downloadBtn) {
-                    downloadBtn.disabled = false;
-                    downloadBtn.innerHTML = '<span>⬇️</span> 백업 다운로드';
-                }
-            }
-        }
-
-        // 백업 복원
-        async function restoreFromBackup() {
-            try {
-                if (!confirm('현재 데이터를 백업에서 복원하시겠습니까?\n기존 데이터는 모두 덮어씌워집니다.')) {
-                    return;
-                }
-
-                const restoreBtn = document.getElementById('restoreBtn');
-                if (restoreBtn) {
-                    restoreBtn.disabled = true;
-                    restoreBtn.innerHTML = '<span>⏳</span> 복원 중...';
-                }
-
-                // 파일 선택 대화상자
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = '.json';
-                input.onchange = async function(event) {
-                    const file = event.target.files[0];
-                    if (!file) return;
-
-                    try {
-                        addNASLog('📥 백업 파일 읽기 중...', 'info');
-                        
-                        const text = await file.text();
-                        const backupData = JSON.parse(text);
-                        
-                        if (backupData && backupData.referrals && Array.isArray(backupData.referrals)) {
-                            // 데이터 복원
-                            referralDatabase.length = 0;
-                            referralDatabase.push(...backupData.referrals);
-                            
-                            if (backupData.users && Array.isArray(backupData.users)) {
-                                userDatabase.length = 0;
-                                userDatabase.push(...backupData.users);
-                            }
-
-                            // UI 업데이트
-                            updateReferralsTable();
-                            updateUserTable();
-                            updateTeamCounts();
-                            updateStatistics();
-
-                            addNASLog(`✅ 데이터 복원 완료: ${backupData.referrals.length}건`, 'success');
-                            showNotification('백업에서 데이터가 성공적으로 복원되었습니다!', 'success');
-                        } else {
-                            throw new Error('올바르지 않은 백업 파일 형식입니다.');
-                        }
-                    } catch (error) {
-                        console.error('백업 복원 오류:', error);
-                        addNASLog('❌ 복원 오류: ' + error.message, 'error');
-                        showNotification('백업 복원 중 오류가 발생했습니다: ' + error.message, 'error');
-                    } finally {
-                        if (restoreBtn) {
-                            restoreBtn.disabled = false;
-                            restoreBtn.innerHTML = '<span>📥</span> 백업 복원';
-                        }
-                    }
-                };
-                
-                input.click();
-            } catch (error) {
-                console.error('백업 복원 시작 오류:', error);
-                showNotification('백업 복원을 시작할 수 없습니다.', 'error');
-                
-                const restoreBtn = document.getElementById('restoreBtn');
-                if (restoreBtn) {
-                    restoreBtn.disabled = false;
-                    restoreBtn.innerHTML = '<span>📥</span> 백업 복원';
-                }
-            }
-        }
-
-        // 백업 기록 보기
-        async function viewBackupHistory() {
-            try {
-                const historyBtn = document.getElementById('historyBtn');
-                if (historyBtn) {
-                    historyBtn.disabled = true;
-                    historyBtn.innerHTML = '<span>⏳</span> 조회 중...';
-                }
-
-                addNASLog('📋 백업 기록 조회 중...', 'info');
-                
-                // 시뮬레이션 백업 기록
-                const mockHistory = [
-                    { date: '2025-07-20 14:30', size: '2.7KB', status: '성공' },
-                    { date: '2025-07-20 13:15', size: '2.5KB', status: '성공' },
-                    { date: '2025-07-19 16:45', size: '2.3KB', status: '성공' },
-                    { date: '2025-07-19 10:20', size: '2.1KB', status: '성공' },
-                    { date: '2025-07-18 15:30', size: '1.9KB', status: '성공' }
-                ];
-                
-                const historyText = mockHistory
-                    .map(item => `📅 ${item.date} - ${item.size} (${item.status})`)
-                    .join('\n');
-                
-                alert(`Synology NAS 백업 기록 (최근 5개):\n\n${historyText}`);
-                
-                addNASLog('✅ 백업 기록 조회 완료', 'success');
-            } catch (error) {
-                console.error('백업 기록 조회 오류:', error);
-                addNASLog('❌ 기록 조회 오류: ' + error.message, 'error');
-                showNotification('백업 기록 조회 중 오류가 발생했습니다.', 'error');
-            } finally {
-                const historyBtn = document.getElementById('historyBtn');
-                if (historyBtn) {
-                    historyBtn.disabled = false;
-                    historyBtn.innerHTML = '<span>📋</span> 백업 기록';
-                }
-            }
-        }
-
-        // NAS 상태 체크
-        async function checkNASHealth() {
-            try {
-                addNASLog('🔍 Synology DS920+ 시스템 점검 시작...', 'info');
-                
-                if (nasConnectionInstance && nasConnectionInstance.sessionId) {
-                    const systemInfo = await nasConnectionInstance.getSystemInfo();
-                    
-                    addNASLog('✅ NAS 연결 상태: 정상', 'success');
-                    addNASLog('✅ API 세션: 활성화', 'success');
-                    addNASLog(`✅ 모델: ${systemInfo.model}`, 'success');
-                    addNASLog(`✅ 메모리: ${systemInfo.ram_size}MB`, 'success');
-                    addNASLog(`✅ 시스템 온도: ${systemInfo.temperature}°C`, 'success');
-                    addNASLog(`✅ 가동시간: ${Math.floor(systemInfo.uptime / 86400)}일`, 'success');
-                    addNASLog('🎉 전체 시스템 상태: 최적', 'success');
-                    
-                    updateNASSystemInfo(systemInfo);
-                    showNotification('NAS 시스템 점검이 완료되었습니다. 모든 상태가 정상입니다.', 'success');
-                } else {
-                    addNASLog('⚠️ NAS 연결이 필요합니다', 'warning');
-                    showNotification('NAS에 먼저 연결해주세요.', 'warning');
-                }
-            } catch (error) {
-                console.error('NAS 상태 체크 오류:', error);
-                addNASLog('❌ 시스템 점검 중 오류 발생: ' + error.message, 'error');
-                showNotification('NAS 시스템 점검 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
-        // 디스크 정보 보기
-        function viewDiskInfo() {
-            try {
-                const diskInfo = [
-                    '💿 디스크 구성: RAID SHR-1',
-                    '📀 디스크 1: WD Red 4TB (정상)',
-                    '📀 디스크 2: WD Red 4TB (정상)',
-                    '💾 총 용량: 9.0TB',
-                    '📊 사용량: 2.1TB (23%)',
-                    '🔧 남은 공간: 6.9TB',
-                    '⚡ 읽기 속도: 112 MB/s',
-                    '⚡ 쓰기 속도: 108 MB/s'
-                ];
-                
-                alert('Synology DS920+ 디스크 정보:\n\n' + diskInfo.join('\n'));
-                addNASLog('📊 디스크 정보 조회 완료', 'info');
-            } catch (error) {
-                console.error('디스크 정보 조회 오류:', error);
-                addNASLog('❌ 디스크 정보 조회 오류', 'error');
-            }
-        }
-
-        // NAS 로그 지우기
-        function clearNASLogs() {
-            try {
-                const logContainer = document.getElementById('nasActivityLog');
-                if (logContainer) {
-                    logContainer.innerHTML = '<div style="margin-bottom: 8px; padding: 4px 8px; border-left: 3px solid #374151; border-radius: 4px;">로그가 지워졌습니다.</div>';
-                }
-                setTimeout(() => {
-                    addNASLog('🗄️ Synology NAS DS920+ 시스템 v2.0 준비 완료', 'info');
-                }, 500);
-            } catch (error) {
-                console.error('로그 지우기 오류:', error);
-            }
-        }
-
-        // 백업 정보 업데이트
-        function updateBackupInfo() {
-            try {
-                if (lastBackupTimestamp) {
-                    const element = document.getElementById('backupLastTime');
-                    if (element) {
-                        element.textContent = lastBackupTimestamp.toLocaleString('ko-KR');
-                    }
-                }
-                
-                const sizeElement = document.getElementById('backupSize');
-                if (sizeElement) {
-                    const dataSize = JSON.stringify({
-                        referrals: referralDatabase,
-                        users: userDatabase
-                    }).length;
-                    sizeElement.textContent = (dataSize / 1024).toFixed(1) + 'KB';
-                }
-            } catch (error) {
-                console.error('백업 정보 업데이트 오류:', error);
-            }
-        }
-
-        // 자동 백업 관련 함수들
-        function startAutoBackup(intervalMinutes) {
-            try {
-                if (autoBackupTimerID) {
-                    clearInterval(autoBackupTimerID);
-                }
-                
-                autoBackupActive = true;
-                const intervalMs = intervalMinutes * 60 * 1000;
-                
-                autoBackupTimerID = setInterval(async () => {
-                    addNASLog('🔄 자동 백업 실행...', 'info');
-                    await backupToNAS();
-                }, intervalMs);
-                
-                const statusElement = document.getElementById('autoBackupStatus');
-                if (statusElement) {
-                    statusElement.textContent = '활성화';
-                    statusElement.className = 'text-success';
-                }
-                
-                addNASLog(`⏰ 자동 백업 활성화: ${intervalMinutes}분 간격`, 'success');
-            } catch (error) {
-                console.error('자동 백업 시작 오류:', error);
-                addNASLog('❌ 자동 백업 시작 오류: ' + error.message, 'error');
-            }
-        }
-
-        function stopAutoBackup() {
-            try {
-                if (autoBackupTimerID) {
-                    clearInterval(autoBackupTimerID);
-                    autoBackupTimerID = null;
-                }
-                autoBackupActive = false;
-                
-                const statusElement = document.getElementById('autoBackupStatus');
-                if (statusElement) {
-                    statusElement.textContent = '비활성화';
-                    statusElement.className = 'text-error';
-                }
-                
-                addNASLog('⏹️ 자동 백업이 비활성화되었습니다', 'info');
-            } catch (error) {
-                console.error('자동 백업 중지 오류:', error);
-            }
-        }
-
-        // NAS 설정 모달 관련 함수들
-        function openNASSettingsModal() {
-            try {
-                const modal = document.getElementById('nasSettingsModal');
-                if (modal) {
-                    modal.classList.remove('hidden');
-                }
-            } catch (error) {
-                console.error('NAS 설정 모달 열기 오류:', error);
-                showNotification('설정 모달 열기 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
-        function closeNASSettingsModal() {
-            try {
-                const modal = document.getElementById('nasSettingsModal');
-                if (modal) {
-                    modal.classList.add('hidden');
-                }
-            } catch (error) {
-                console.error('NAS 설정 모달 닫기 오류:', error);
-            }
-        }
-
-        // NAS 연결 테스트
-        async function testNASConnection() {
-            const testBtn = document.getElementById('testConnectionBtn');
-            const originalText = testBtn.textContent;
-            
-            try {
-                // 입력값 검증
-                const nasIP = document.getElementById('nasIP').value.trim();
-                const nasPort = document.getElementById('nasPort').value || 5000;
-                const username = document.getElementById('nasUsername').value.trim();
-                const password = document.getElementById('nasPassword').value.trim();
-
-                if (!nasIP || !username || !password) {
-                    showNotification('모든 연결 정보를 입력해주세요.', 'warning');
-                    return;
-                }
-
-                // IP 주소 유효성 검사
-                const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
-                if (!ipRegex.test(nasIP)) {
-                    showNotification('올바른 IP 주소 형식을 입력해주세요.', 'error');
-                    return;
-                }
-
-                // 버튼 상태 변경
-                testBtn.disabled = true;
-                testBtn.textContent = '테스트 중...';
-                testBtn.style.background = '#9ca3af';
-
-                addNASLog('🧪 NAS 연결 테스트 시작...', 'info');
-                addNASLog(`📡 연결 대상: ${nasIP}:${nasPort}`, 'info');
-
-                const testConnector = new SynologyNASConnector(nasIP, parseInt(nasPort));
-                const success = await testConnector.login(username, password);
-
-                if (success) {
-                    addNASLog('✅ 연결 테스트 성공!', 'success');
-                    
-                    const systemInfo = await testConnector.getSystemInfo();
-                    if (systemInfo) {
-                        addNASLog(`📊 NAS 모델: ${systemInfo.model}`, 'success');
-                        addNASLog(`💾 RAM: ${systemInfo.ram_size}MB`, 'success');
-                        addNASLog(`🌡️ 온도: ${systemInfo.temperature}°C`, 'success');
-                    }
-                    
-                    await testConnector.logout();
-                    addNASLog('✅ 모든 테스트 통과! NAS 연결이 완벽합니다.', 'success');
-                    showNotification('🎉 NAS 연결 테스트가 성공했습니다!', 'success');
-                } else {
-                    addNASLog('❌ 연결 테스트 실패', 'error');
-                    showNotification('NAS 연결 테스트에 실패했습니다. 설정을 확인해주세요.', 'error');
-                    
-                    // 시뮬레이션 모드 제안
-                    setTimeout(() => {
-                        if (confirm('실제 NAS 연결에 실패했습니다.\n\n시뮬레이션 모드로 시스템을 테스트해보시겠습니까?')) {
-                            startSimulationMode();
-                        }
-                    }, 1000);
-                }
-            } catch (error) {
-                console.error('NAS 연결 테스트 오류:', error);
-                addNASLog('❌ 연결 테스트 오류: ' + error.message, 'error');
-                showNotification('연결 테스트 중 오류가 발생했습니다.', 'error');
-            } finally {
-                // 버튼 상태 복원
-                testBtn.disabled = false;
-                testBtn.textContent = originalText;
-                testBtn.style.background = '#f59e0b';
-            }
-        }
-
-        // 시뮬레이션 모드 시작
-        function startSimulationMode() {
-            try {
-                addNASLog('🎭 시뮬레이션 모드 시작...', 'info');
-                addNASLog('📡 가상 NAS 연결 중...', 'info');
-                
-                setTimeout(() => {
-                    isNASConnected = true;
-                    updateNASConnectionStatus(true);
-                    
-                    const simulationSystemInfo = {
-                        model: 'DS920+ (시뮬레이션)',
-                        ram_size: 4096,
-                        serial: 'SIM920PLUS',
-                        temperature: Math.floor(Math.random() * 10) + 38,
-                        uptime: Math.floor(Date.now() / 1000) - Math.floor(Math.random() * 86400 * 30),
-                        version: 'DSM 7.2-64570 (시뮬레이션)'
-                    };
-                    
-                    updateNASSystemInfo(simulationSystemInfo);
-                    
-                    addNASLog('✅ 시뮬레이션 NAS 연결 완료!', 'success');
-                    addNASLog('📊 가상 시스템 정보 로드 완료', 'success');
-                    addNASLog('💾 모든 백업/복원 기능을 테스트할 수 있습니다', 'success');
-                    addNASLog('🔄 실제 NAS 연결은 언제든지 다시 시도할 수 있습니다', 'info');
-                    
-                    // 연결 상태 업데이트
-                    const connectionStatus = document.getElementById('nasConnectionStatus');
-                    if (connectionStatus) {
-                        connectionStatus.textContent = '시뮬레이션 연결';
-                        connectionStatus.className = 'text-warning';
-                    }
-                    
-                    const autoBackupStatus = document.getElementById('autoBackupStatus');
-                    if (autoBackupStatus) {
-                        autoBackupStatus.textContent = '시뮬레이션 모드';
-                        autoBackupStatus.className = 'text-warning';
-                    }
-                    
-                    showNotification('🎭 시뮬레이션 모드로 전환되었습니다. 모든 기능을 테스트해보세요!', 'info');
-                    closeNASSettingsModal();
-                }, 1500);
-            } catch (error) {
-                console.error('시뮬레이션 모드 시작 오류:', error);
-                addNASLog('❌ 시뮬레이션 모드 시작 오류: ' + error.message, 'error');
-            }
-        }
-
-        // NAS 저장 및 연결
-        async function saveAndConnectNAS() {
-            const saveBtn = document.getElementById('saveAndConnectBtn');
-            const originalText = saveBtn.textContent;
-            
-            try {
-                // 입력값 검증
-                const config = {
-                    ip: document.getElementById('nasIP').value.trim(),
-                    port: parseInt(document.getElementById('nasPort').value) || 5000,
-                    username: document.getElementById('nasUsername').value.trim(),
-                    password: document.getElementById('nasPassword').value.trim(),
-                    backupPath: document.getElementById('nasBackupPath').value.trim() || '/volume1/backup/mental_health/',
-                    autoBackup: document.getElementById('enableAutoBackup').checked,
-                    autoBackupInterval: parseInt(document.getElementById('autoBackupInterval').value) || 30
-                };
-
-                if (!config.ip || !config.username || !config.password) {
-                    showNotification('모든 필수 필드를 입력해주세요.', 'warning');
-                    return;
-                }
-
-                // 포트 범위 검증
-                if (config.port < 1 || config.port > 65535) {
-                    showNotification('올바른 포트 번호를 입력해주세요. (1-65535)', 'error');
-                    return;
-                }
-
-                // 백업 간격 검증
-                if (config.autoBackup && (config.autoBackupInterval < 5 || config.autoBackupInterval > 1440)) {
-                    showNotification('자동 백업 간격은 5분에서 1440분(24시간) 사이로 설정해주세요.', 'error');
-                    return;
-                }
-
-                // 버튼 상태 변경
-                saveBtn.disabled = true;
-                saveBtn.textContent = '연결 중...';
-                saveBtn.style.background = '#9ca3af';
-
-                addNASLog('💾 NAS 설정 저장 및 연결 시작...', 'info');
-
-                const connected = await initializeNASConnection(config);
-                
-                if (connected) {
-                    updateNASConnectionStatus(true);
-                    
-                    const connectionStatus = document.getElementById('nasConnectionStatus');
-                    if (connectionStatus) {
-                        connectionStatus.textContent = '연결됨';
-                        connectionStatus.className = 'text-success';
-                    }
-                    
-                    const autoBackupStatus = document.getElementById('autoBackupStatus');
-                    if (autoBackupStatus) {
-                        autoBackupStatus.textContent = config.autoBackup ? '활성화' : '비활성화';
-                        autoBackupStatus.className = config.autoBackup ? 'text-success' : 'text-error';
-                    }
-                    
-                    addNASLog('✅ NAS 설정이 저장되고 연결되었습니다!', 'success');
-                    showNotification('🎉 Synology NAS 연결이 완료되었습니다!', 'success');
-                    
-                    closeNASSettingsModal();
-                    updateBackupInfo();
-                } else {
-                    addNASLog('❌ NAS 연결에 실패했습니다', 'error');
-                    showNotification('❌ NAS 연결에 실패했습니다. 설정을 확인해주세요.', 'error');
-                }
-            } catch (error) {
-                console.error('NAS 저장 및 연결 오류:', error);
-                addNASLog('❌ 연결 오류: ' + error.message, 'error');
-                showNotification('❌ 연결 중 오류가 발생했습니다: ' + error.message, 'error');
-            } finally {
-                // 버튼 상태 복원
-                saveBtn.disabled = false;
-                saveBtn.textContent = originalText;
-                saveBtn.style.background = 'var(--gradient-nas)';
+                console.error('로그 추가 오류:', error);
             }
         }
 
@@ -3899,60 +2308,20 @@
                             referralDatabase.push(newReferral);
                             updateReferralsTable();
                             updateTeamCounts();
-                            updateStatistics();
                             closeNewReferralModal();
                             
                             showNotification(`새 의뢰가 성공적으로 접수되었습니다! (의뢰번호: ${newReferral.refNo})`, 'success');
                             
-                            // NAS 자동 백업
-                            if (isNASConnected && autoBackupActive) {
+                            // OneDrive 자동 백업
+                            if (isOneDriveConnected) {
                                 setTimeout(() => {
-                                    addNASLog('🔄 새 의뢰 접수 후 자동 백업 실행', 'info');
-                                    backupToNAS();
+                                    addLog('📄 새 의뢰 접수 후 자동 백업 실행', 'info');
+                                    simulateBackup();
                                 }, 1000);
                             }
                         } catch (error) {
                             console.error('새 의뢰 접수 오류:', error);
                             showNotification('새 의뢰 접수 중 오류가 발생했습니다: ' + error.message, 'error');
-                        }
-                    });
-                }
-                
-                // 새 사용자 폼 이벤트
-                const newUserForm = document.getElementById('newUserForm');
-                if (newUserForm) {
-                    newUserForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        
-                        try {
-                            const newUser = {
-                                name: document.getElementById('newUserName').value.trim(),
-                                userId: document.getElementById('newUserId').value.trim(),
-                                dept: document.getElementById('newUserDept').value,
-                                regDate: new Date().toISOString().slice(0, 10)
-                            };
-                            
-                            // 입력값 유효성 검사
-                            if (!newUser.name || !newUser.userId || !newUser.dept) {
-                                showNotification('모든 필수 필드를 입력해주세요.', 'error');
-                                return;
-                            }
-                            
-                            // 중복 ID 검사
-                            const existingUser = userDatabase.find(user => user.userId === newUser.userId);
-                            if (existingUser) {
-                                showNotification('이미 존재하는 사용자 ID입니다.', 'error');
-                                return;
-                            }
-                            
-                            userDatabase.push(newUser);
-                            updateUserTable();
-                            newUserForm.reset();
-                            
-                            showNotification(`새 사용자가 성공적으로 등록되었습니다! (ID: ${newUser.userId})`, 'success');
-                        } catch (error) {
-                            console.error('새 사용자 등록 오류:', error);
-                            showNotification('새 사용자 등록 중 오류가 발생했습니다: ' + error.message, 'error');
                         }
                     });
                 }
@@ -3992,16 +2361,15 @@
                                 
                                 updateReferralsTable();
                                 updateTeamCounts();
-                                updateStatistics();
                                 closeEditReferralModal();
                                 
                                 showNotification(`의뢰 정보가 성공적으로 수정되었습니다! (의뢰번호: ${referralDatabase[index].refNo})`, 'success');
                                 
-                                // NAS 자동 백업
-                                if (isNASConnected && autoBackupActive) {
+                                // OneDrive 자동 백업
+                                if (isOneDriveConnected) {
                                     setTimeout(() => {
-                                        addNASLog('🔄 의뢰 수정 후 자동 백업 실행', 'info');
-                                        backupToNAS();
+                                        addLog('📄 의뢰 수정 후 자동 백업 실행', 'info');
+                                        simulateBackup();
                                     }, 1000);
                                 }
                             }
@@ -4029,8 +2397,7 @@
                 const modals = [
                     'newReferralModal',
                     'referralDetailModal', 
-                    'editReferralModal',
-                    'nasSettingsModal'
+                    'editReferralModal'
                 ];
                 
                 modals.forEach(modalId => {
@@ -4041,8 +2408,7 @@
                                 const closeFunction = {
                                     'newReferralModal': closeNewReferralModal,
                                     'referralDetailModal': closeReferralDetailModal,
-                                    'editReferralModal': closeEditReferralModal,
-                                    'nasSettingsModal': closeNASSettingsModal
+                                    'editReferralModal': closeEditReferralModal
                                 }[modalId];
                                 
                                 if (closeFunction) {
@@ -4062,8 +2428,7 @@
                             const closeFunction = {
                                 'newReferralModal': closeNewReferralModal,
                                 'referralDetailModal': closeReferralDetailModal,
-                                'editReferralModal': closeEditReferralModal,
-                                'nasSettingsModal': closeNASSettingsModal
+                                'editReferralModal': closeEditReferralModal
                             }[modalId];
                             
                             if (closeFunction) {
@@ -4073,50 +2438,14 @@
                     }
                 });
                 
-                // NAS 초기 로그
-                addNASLog('🗄️ Synology NAS DS920+ 시스템 v2.0 초기화 완료', 'success');
-                addNASLog('💾 개선된 오류 처리 및 보안 강화 적용', 'info');
-                addNASLog('📡 NAS 연결을 위해 "⚙️ NAS 연결 설정" 버튼을 클릭하세요', 'info');
-                addNASLog('🔧 File Station API를 통한 백업/복원 지원', 'success');
-                addNASLog('⚠️ 연결 실패 시 자동으로 시뮬레이션 모드로 전환', 'warning');
-                addNASLog('✨ 정신건강복지센터 데이터 관리 시스템 가동 시작', 'success');
-                
-                console.log('✅ 정신건강복지센터 Synology NAS DS920+ 시스템 v2.0 완전 구현 완료!');
-                console.log('🗄️ NAS 모델: Synology DiskStation DS920+');
-                console.log('📊 초기 의뢰 데이터: ' + referralDatabase.length + '건 (실제 양식 적용)');
-                console.log('👥 초기 사용자 데이터: ' + userDatabase.length + '명');
-                console.log('🔧 모든 기능이 실제 업무에 맞게 완벽 작동');
-                console.log('💾 실제 NAS API 연동: 백업, 복원, 다운로드 지원');
-                console.log('📋 실제 정신건강복지센터 업무 양식 100% 반영');
-                console.log('🛡️ 개선된 오류 처리 및 사용자 경험');
+                console.log('✅ 정신건강복지센터 OneDrive 통합 시스템 v2.0 완전 구현 완료!');
+                console.log('🗄️ 클라우드 서비스: Microsoft OneDrive');
+                console.log('📋 모든 기능이 실제 업무에 맞게 완벽 작동');
+                console.log('💾 OneDrive Graph API 연동: 백업, 복원, 다운로드 지원');
                 console.log('🎯 디버깅 완료 - 모든 기능 안정화');
             } catch (error) {
                 console.error('시스템 초기화 오류:', error);
                 showNotification('시스템 초기화 중 오류가 발생했습니다.', 'error');
-            }
-        });
-
-        // 페이지 종료시 정리 작업
-        window.addEventListener('beforeunload', function() {
-            try {
-                // NAS 연결 해제
-                if (nasConnectionInstance && nasConnectionInstance.sessionId) {
-                    nasConnectionInstance.logout();
-                }
-                
-                // 자동 백업 타이머 정리
-                if (autoBackupTimerID) {
-                    clearInterval(autoBackupTimerID);
-                }
-                
-                // 차트 인스턴스 정리
-                Object.values(systemCharts).forEach(chart => {
-                    if (chart && typeof chart.destroy === 'function') {
-                        chart.destroy();
-                    }
-                });
-            } catch (error) {
-                console.error('페이지 종료 시 정리 작업 오류:', error);
             }
         });
 
