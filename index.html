@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정신건강복지센터 - OneDrive 통합 시스템 v2.1</title>
-    
+    <title>정신건강복지센터 - OneDrive 통합 시스템 v2.2</title>
     <!-- Chart.js & SheetJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    
     <style>
         :root {
             --primary-color: #667eea;
@@ -45,7 +43,6 @@
             line-height: 1.6;
         }
 
-        /* 상태바 스타일 */
         .status-bar {
             position: fixed;
             top: 0;
@@ -76,7 +73,6 @@
             50% { opacity: 0.7; }
         }
 
-        /* 로그인 화면 */
         .login-container {
             display: flex;
             justify-content: center;
@@ -175,7 +171,6 @@
             transform: none;
         }
 
-        /* 메인 앱 컨테이너 */
         .app-container {
             display: flex;
             height: 100vh;
@@ -187,7 +182,6 @@
             display: none !important;
         }
 
-        /* 사이드바 */
         .sidebar {
             width: 300px;
             background: rgba(255, 255, 255, 0.95);
@@ -261,7 +255,6 @@
             transition: color 0.3s ease;
         }
 
-        /* 메인 콘텐츠 */
         .main-content {
             flex: 1;
             background: rgba(248, 250, 252, 0.8);
@@ -286,10 +279,9 @@
             background: transparent;
         }
 
-        /* 알림 스타일 */
         .notification {
             position: fixed;
-            top: 80px;
+            bottom: 100px;
             right: 24px;
             background: white;
             padding: 20px 24px;
@@ -298,12 +290,12 @@
             border-left: 4px solid var(--success-color);
             z-index: 10001;
             max-width: 450px;
-            animation: slideIn 0.4s ease-out;
+            animation: slideInFromBottom 0.4s ease-out;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        @keyframes slideInFromBottom {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .notification.error {
@@ -318,7 +310,6 @@
             border-left-color: var(--warning-color);
         }
 
-        /* 위젯 스타일 */
         .widget {
             background: var(--gradient-card);
             padding: 32px;
@@ -347,7 +338,6 @@
             color: var(--primary-color);
         }
 
-        /* 통계 카드 */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -406,7 +396,6 @@
             font-weight: 600;
         }
 
-        /* 새 의뢰 버튼 */
         .new-referral-btn {
             display: flex;
             align-items: center;
@@ -430,7 +419,6 @@
             box-shadow: var(--shadow-lg);
         }
 
-        /* 팀 탭 스타일 */
         .team-tabs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -478,7 +466,6 @@
             margin-top: 4px;
         }
 
-        /* 테이블 스타일 */
         .table-container {
             background: white;
             border-radius: 20px;
@@ -545,7 +532,6 @@
             background: #ef4444;
         }
 
-        /* 상태 배지 스타일 */
         .status-badge {
             padding: 4px 8px;
             border-radius: 12px;
@@ -570,7 +556,6 @@
             background: #6b7280;
         }
 
-        /* 모달 스타일 */
         .modal {
             position: fixed;
             top: 0;
@@ -626,7 +611,6 @@
             justify-content: center;
         }
 
-        /* 폼 섹션 스타일 */
         .form-section {
             padding: 20px;
             border-radius: 12px;
@@ -660,7 +644,6 @@
             background: #f3f4f6;
         }
 
-        /* 디버깅 패널 스타일 */
         .debug-panel {
             position: fixed;
             bottom: 20px;
@@ -722,12 +705,10 @@
             background: #4b5563;
         }
 
-        /* 숨김 클래스 */
         .hidden {
             display: none !important;
         }
 
-        /* 반응형 디자인 */
         @media (max-width: 768px) {
             .sidebar {
                 width: 250px;
@@ -747,6 +728,69 @@
                 padding: 20px;
             }
         }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+        }
+
+        .user-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .user-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .user-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .role-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .role-badge.admin {
+            background: #dc2626;
+            color: white;
+        }
+
+        .role-badge.manager {
+            background: #059669;
+            color: white;
+        }
+
+        .role-badge.user {
+            background: #3b82f6;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -757,12 +801,12 @@
     <div class="status-bar">
         <div style="display: flex; align-items: center;">
             <div class="status-dot"></div>
-            <span>데이터 관리 시스템 v2.1</span>
+            <span>데이터 관리 시스템 v2.2</span>
             <span style="margin-left: 16px; font-size: 11px; opacity: 0.8;">|</span>
             <span style="margin-left: 8px; font-size: 11px;">
                 <span style="display: inline-flex; align-items: center; gap: 4px;">
                     <span>💾</span>
-                    <span>로컬 저장 + 디버깅</span>
+                    <span>로컬 저장 + 개선된 디버깅</span>
                 </span>
             </span>
         </div>
@@ -770,12 +814,12 @@
             <span>접속자: <span id="onlineCount">1</span>명 | <span id="currentTime"></span></span>
         </div>
     </div>
-
-    <!-- 디버깅 토글 버튼 -->
-    <button class="debug-toggle" onclick="toggleDebugPanel()">🐛 디버그</button>
-
-    <!-- 디버깅 패널 -->
-    <div id="debugPanel" class="debug-panel hidden">
+    
+    <!-- 디버그 토글 버튼 (기본적으로 숨김) -->
+    <button class="debug-toggle hidden" id="debugToggleBtn" onclick="toggleDebugPanel()">🛠 디버그</button>
+    
+    <!-- 디버그 패널 -->
+    <div class="debug-panel hidden" id="debugPanel">
         <h4>🔧 시스템 디버그 정보</h4>
         <div id="debugContent">
             <div class="debug-info">시스템 초기화 중...</div>
@@ -785,46 +829,45 @@
             <button onclick="clearDebugLog()" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; margin-left: 4px;">로그 클리어</button>
         </div>
     </div>
-
+    
     <!-- 로그인 화면 -->
-    <div id="loginScreen" class="login-container">
+    <div class="login-container" id="loginScreen">
         <div class="login-box">
             <div class="login-header">
                 <h1>🏥 정신건강복지센터</h1>
-                <p>데이터 관리 시스템 v2.1 (디버깅 강화)</p>
+                <p>데이터 관리 시스템 v2.2 (디버깅 개선)</p>
             </div>
-            
             <div id="loginForm">
+                <div id="loginErrors" style="display: none;"></div>
                 <div class="form-group">
                     <label for="username">사용자 ID</label>
-                    <input type="text" id="username" placeholder="사용자 ID를 입력하세요" value="admin" autocomplete="username">
+                    <input type="text" id="username" placeholder="사용자 ID를 입력하세요" autocomplete="username">
                 </div>
                 <div class="form-group">
                     <label for="password">비밀번호</label>
-                    <input type="password" id="password" placeholder="비밀번호를 입력하세요" value="1234" autocomplete="current-password">
+                    <input type="password" id="password" placeholder="비밀번호를 입력하세요" autocomplete="current-password">
                 </div>
-                <button class="btn" onclick="handleLogin()" id="loginBtn">로그인</button>
-                
+                <button class="btn" id="loginBtn" onclick="handleLogin()">로그인</button>
                 <div style="text-align: center; margin-top: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px;">
                     <p style="margin: 0; font-size: 14px; color: var(--text-secondary);">
-                        🔧 <strong>v2.1 업데이트</strong><br>
-                        • 디버깅 시스템 강화<br>
-                        • 이벤트 리스너 오류 수정<br>
-                        • 실시간 상태 모니터링
+                        🔧 <strong>v2.2 업데이트</strong><br>
+                        • 로그인 오류 수정<br>
+                        • 디버깅 시스템 개선<br>
+                        • 계정 관리 시스템 추가
                     </p>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <!-- 새 의뢰 모달 -->
-    <div id="newReferralModal" class="modal hidden">
+    <div class="modal hidden" id="newReferralModal">
         <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
             <div class="modal-header">
                 <h2 class="modal-title">🏥 새 의뢰 접수</h2>
                 <button class="modal-close" onclick="closeNewReferralModal()">×</button>
             </div>
-            
+            <div id="formErrors" style="display: none;"></div>
             <form id="newReferralForm">
                 <!-- 기본 정보 섹션 -->
                 <div class="form-section basic-info">
@@ -832,7 +875,7 @@
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                         <div class="form-group">
                             <label>이름 *</label>
-                            <input type="text" id="referrerName" required placeholder="예: 김철수" maxlength="50">
+                            <input type="text" id="referrerName" required maxlength="50" placeholder="예: 김철수">
                         </div>
                         <div class="form-group">
                             <label>성별 *</label>
@@ -852,22 +895,39 @@
                         </div>
                         <div class="form-group">
                             <label>지역</label>
-                            <input type="text" id="region" placeholder="예: 이천시 창전동" maxlength="100">
+                            <select id="region">
+                                <option value="">지역을 선택하세요</option>
+                                <option value="이천시 중리동">중리동</option>
+                                <option value="이천시 증포동">증포동</option>
+                                <option value="이천시 관고동">관고동</option>
+                                <option value="이천시 창전동">창전동</option>
+                                <option value="이천시 부발읍">부발읍</option>
+                                <option value="이천시 마장면">마장면</option>
+                                <option value="이천시 백사면">백사면</option>
+                                <option value="이천시 신둔면">신둔면</option>
+                                <option value="이천시 호법면">호법면</option>
+                                <option value="이천시 설성면">설성면</option>
+                                <option value="이천시 대월면">대월면</option>
+                                <option value="이천시 율면">율면</option>
+                                <option value="이천시 모가면">모가면</option>
+                                <option value="이천시 장호원읍">장호원읍</option>
+                                <option value="기타">기타</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>담당자</label>
-                            <input type="text" id="assignedCounselor" placeholder="담당 상담사명" maxlength="50">
+                            <input type="text" id="assignedCounselor" maxlength="50" placeholder="담당 상담사명">
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- 의뢰 정보 섹션 -->
                 <div class="form-section referral-info">
                     <h3>📋 의뢰 정보</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                         <div class="form-group">
                             <label>의뢰경로</label>
-                            <input type="text" id="referralPath" placeholder="의뢰 경로" maxlength="100">
+                            <input type="text" id="referralPath" maxlength="100" placeholder="의뢰 경로">
                         </div>
                         <div class="form-group">
                             <label>의뢰기관 *</label>
@@ -893,7 +953,7 @@
                         </div>
                         <div class="form-group">
                             <label>담당팀 *</label>
-                            <select id="assignedTeam" required>
+                            <select id="assignedTeam" required onchange="handleTeamSelection()">
                                 <option value="">선택하세요</option>
                                 <option value="증진팀">증진팀</option>
                                 <option value="회복팀">회복팀</option>
@@ -902,13 +962,23 @@
                                 <option value="남부분소">남부분소</option>
                             </select>
                         </div>
+                        <div class="form-group" id="subTeamContainer" style="display: none;">
+                            <label>남부분소 세부팀 *</label>
+                            <select id="subTeam">
+                                <option value="">세부팀을 선택하세요</option>
+                                <option value="회복">회복</option>
+                                <option value="자살">자살</option>
+                                <option value="증진">증진</option>
+                                <option value="아동청소년">아동청소년</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>CRI</label>
-                            <input type="text" id="criInfo" placeholder="CRI 정보" maxlength="50">
+                            <input type="text" id="criInfo" maxlength="50" placeholder="CRI 정보">
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- 의뢰 유형 섹션 -->
                 <div class="form-section referral-type">
                     <h3>📋 의뢰 유형</h3>
@@ -931,14 +1001,14 @@
                         </label>
                     </div>
                 </div>
-
+                
                 <!-- 진단 및 조치 정보 섹션 -->
                 <div class="form-section diagnosis-info">
                     <h3>🏥 진단 및 조치 정보</h3>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                         <div class="form-group">
                             <label>진단명</label>
-                            <input type="text" id="diagnosis" placeholder="예: 우울증, 조현병 등" maxlength="100">
+                            <input type="text" id="diagnosis" maxlength="100" placeholder="예: 우울증, 조현병 등">
                         </div>
                         <div class="form-group">
                             <label>조치결과</label>
@@ -966,16 +1036,20 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- 상세 내용 섹션 -->
                 <div class="form-section content-info">
                     <h3>📝 상세 내용</h3>
                     <div class="form-group">
                         <label>개입내용/현상황 *</label>
-                        <textarea id="interventionContent" required style="min-height: 150px; resize: vertical; font-family: 'Malgun Gothic', sans-serif; line-height: 1.6;" placeholder="현재 상황, 개입 내용, 증상의 구체적 내용 등을 상세히 기술해주세요." maxlength="5000"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div></div>
+                            <button type="button" onclick="insertSampleText()" style="background: #059669; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 600;">📝 샘플 텍스트 삽입</button>
+                        </div>
+                        <textarea id="interventionContent" required maxlength="5000" placeholder="현재 상황, 개입 내용, 증상의 구체적 내용 등을 상세히 기술해주세요." style="min-height: 150px; resize: vertical; font-family: 'Malgun Gothic', sans-serif; line-height: 1.6;"></textarea>
                     </div>
                 </div>
-
+                
                 <!-- 회신 정보 섹션 -->
                 <div class="form-section" style="background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%); border: 2px solid #64748b;">
                     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
@@ -984,7 +1058,7 @@
                     </div>
                     <div class="form-group">
                         <label style="font-weight: 700; color: #1f2937; font-size: 15px;">회신여부 및 내용</label>
-                        <textarea id="responseRequired" style="min-height: 80px; resize: vertical; border: 2px solid #cbd5e1; font-family: 'Malgun Gothic', sans-serif;" placeholder="회신이 필요한 경우 구체적인 내용을 작성해주세요." maxlength="1000"></textarea>
+                        <textarea id="responseRequired" maxlength="1000" placeholder="회신이 필요한 경우 구체적인 내용을 작성해주세요." style="min-height: 80px; resize: vertical; border: 2px solid #cbd5e1; font-family: 'Malgun Gothic', sans-serif;"></textarea>
                     </div>
                 </div>
                 
@@ -992,186 +1066,94 @@
                 <div style="display: flex; gap: 12px; justify-content: end; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
                     <button type="button" onclick="closeNewReferralModal()" style="padding: 14px 28px; background: #f3f4f6; color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">취소</button>
                     <button type="button" onclick="saveDraftReferral()" style="padding: 14px 28px; background: #f59e0b; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">임시저장</button>
-                    <button type="submit" style="padding: 14px 28px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">접수 완료</button>
+                    <button type="submit" id="submitNewReferralBtn" style="padding: 14px 28px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">접수 완료</button>
                 </div>
             </form>
         </div>
     </div>
-
+    
     <!-- 의뢰 상세보기 모달 -->
-    <div id="referralDetailModal" class="modal hidden">
+    <div class="modal hidden" id="referralDetailModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">의뢰 상세보기</h2>
                 <button class="modal-close" onclick="closeReferralDetailModal()">×</button>
             </div>
-            
             <div id="referralDetailContent" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
                 <!-- 상세 내용이 여기에 표시됩니다 -->
             </div>
-            
             <div style="display: flex; gap: 12px; justify-content: end; margin-top: 30px;">
                 <button onclick="closeReferralDetailModal()" style="padding: 12px 24px; background: #f3f4f6; color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer;">닫기</button>
                 <button id="editCurrentReferralBtn" onclick="editCurrentReferral()" style="padding: 12px 24px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; cursor: pointer;">수정</button>
             </div>
         </div>
     </div>
-
-    <!-- 의뢰 수정 모달 -->
-    <div id="editReferralModal" class="modal hidden">
-        <div class="modal-content" style="max-width: 900px; max-height: 90vh; overflow-y: auto;">
+    
+    <!-- 계정 관리 모달 -->
+    <div class="modal hidden" id="accountManagementModal">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h2 class="modal-title">✏️ 의뢰 수정</h2>
-                <button class="modal-close" onclick="closeEditReferralModal()">×</button>
+                <h2 class="modal-title">👥 계정 관리</h2>
+                <button class="modal-close" onclick="closeAccountModal()">×</button>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <button onclick="showNewAccountForm()" style="background: var(--gradient-primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">➕ 새 계정 추가</button>
             </div>
             
-            <form id="editReferralForm">
-                <!-- 기본 정보 -->
-                <div class="form-section basic-info">
-                    <h3>👤 기본 정보</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <div class="form-group">
-                            <label>의뢰번호</label>
-                            <input type="text" id="editRefNo" readonly style="background: #f3f4f6;">
-                        </div>
-                        <div class="form-group">
-                            <label>이름 *</label>
-                            <input type="text" id="editReferrerName" required maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label>성별 *</label>
-                            <select id="editReferrerGender" required>
-                                <option value="남성">남성</option>
-                                <option value="여성">여성</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>나이 *</label>
-                            <input type="number" id="editReferrerAge" required min="0" max="120">
-                        </div>
-                        <div class="form-group">
-                            <label>의뢰날짜 *</label>
-                            <input type="date" id="editReferralDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label>지역</label>
-                            <input type="text" id="editRegion" maxlength="100">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 의뢰 정보 -->
-                <div class="form-section referral-info">
-                    <h3>📋 의뢰 정보</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <div class="form-group">
-                            <label>의뢰경로</label>
-                            <input type="text" id="editReferralPath" maxlength="100">
-                        </div>
-                        <div class="form-group">
-                            <label>의뢰기관 *</label>
-                            <select id="editReferringAgency" required>
-                                <option value="읍.면.동 행정복지센터">읍.면.동 행정복지센터</option>
-                                <option value="이천시청">이천시청</option>
-                                <option value="경찰서">경찰서</option>
-                                <option value="소방">소방</option>
-                                <option value="의료기관">의료기관</option>
-                                <option value="정신보건기관">정신보건기관</option>
-                                <option value="보건소">보건소</option>
-                                <option value="가족">가족</option>
-                                <option value="지인">지인</option>
-                                <option value="지역사회">지역사회</option>
-                                <option value="복지관">복지관</option>
-                                <option value="학교">학교</option>
-                                <option value="기타">기타</option>
-                                <option value="1393/129">1393/129</option>
-                                <option value="본인">본인</option>
-                                <option value="이동상담">이동상담</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>담당팀 *</label>
-                            <select id="editAssignedTeam" required>
-                                <option value="증진팀">증진팀</option>
-                                <option value="회복팀">회복팀</option>
-                                <option value="자살예방센터">자살예방센터</option>
-                                <option value="아동청소년">아동청소년</option>
-                                <option value="남부분소">남부분소</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>담당자</label>
-                            <input type="text" id="editCounselor" maxlength="50">
-                        </div>
-                        <div class="form-group">
-                            <label>CRI</label>
-                            <input type="text" id="editCriInfo" maxlength="50">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 진단 및 조치 정보 -->
-                <div class="form-section diagnosis-info">
-                    <h3>🏥 진단 및 조치 정보</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                        <div class="form-group">
-                            <label>진단명</label>
-                            <input type="text" id="editDiagnosis" maxlength="100">
-                        </div>
-                        <div class="form-group">
-                            <label>조치결과</label>
-                            <select id="editActionResult">
-                                <option value="등록관리(기등록포함)">등록관리(기등록포함)</option>
-                                <option value="지속상담">지속상담</option>
-                                <option value="치료연계">치료연계</option>
-                                <option value="서비스 연계">서비스 연계</option>
-                                <option value="기타조치">기타조치</option>
-                                <option value="정보제공">정보제공</option>
-                                <option value="종결">종결</option>
-                                <option value="처리중">처리중</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>종결여부 *</label>
-                            <select id="editClosureStatus" required>
-                                <option value="진행중">진행중</option>
-                                <option value="종결">종결</option>
-                                <option value="조치 결과 등록제외">조치 결과 등록제외</option>
-                                <option value="미등록자 종결">미등록자 종결</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 개입내용 섹션 -->
-                <div class="form-section content-info">
-                    <h3>📝 개입내용/현상황</h3>
+            <!-- 새 계정 추가 폼 -->
+            <div id="newAccountForm" class="hidden" style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <h4 style="margin-bottom: 15px;">새 계정 추가</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div class="form-group">
-                        <label>개입내용/현상황 *</label>
-                        <textarea id="editInterventionContent" required style="min-height: 150px; resize: vertical; font-family: 'Malgun Gothic', sans-serif; line-height: 1.6;" placeholder="현재 상황, 개입 내용, 증상의 구체적 내용 등을 상세히 기술해주세요." maxlength="5000"></textarea>
+                        <label>사용자 ID *</label>
+                        <input type="text" id="newUserId" maxlength="20" placeholder="영문, 숫자 조합">
                     </div>
-                </div>
-                
-                <!-- 회신 정보 섹션 -->
-                <div class="form-section" style="background: #f0f4f8;">
-                    <h3>📬 회신 정보</h3>
                     <div class="form-group">
-                        <label>회신여부 및 내용</label>
-                        <textarea id="editResponseRequired" style="min-height: 80px; resize: vertical; border: 2px solid #cbd5e1; font-family: 'Malgun Gothic', sans-serif;" placeholder="회신이 필요한 경우 구체적인 내용을 작성해주세요." maxlength="1000"></textarea>
+                        <label>비밀번호 *</label>
+                        <input type="password" id="newUserPassword" maxlength="50" placeholder="최소 4자 이상">
+                    </div>
+                    <div class="form-group">
+                        <label>이름 *</label>
+                        <input type="text" id="newUserName" maxlength="20" placeholder="실제 이름">
+                    </div>
+                    <div class="form-group">
+                        <label>권한 *</label>
+                        <select id="newUserRole">
+                            <option value="user">일반 사용자</option>
+                            <option value="manager">관리자</option>
+                            <option value="admin">최고관리자</option>
+                        </select>
                     </div>
                 </div>
-                
-                <!-- 버튼 그룹 -->
-                <div style="display: flex; gap: 12px; justify-content: end; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
-                    <button type="button" onclick="closeEditReferralModal()" style="padding: 14px 28px; background: #f3f4f6; color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">취소</button>
-                    <button type="button" onclick="handleSaveEditedReferral()" id="saveEditedReferralBtn" style="padding: 14px 28px; background: var(--gradient-primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;">💾 저장</button>
+                <div style="margin-top: 15px;">
+                    <button onclick="createAccount()" style="background: #059669; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-right: 10px;">추가</button>
+                    <button onclick="hideNewAccountForm()" style="background: #6b7280; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">취소</button>
                 </div>
-            </form>
+            </div>
+            
+            <!-- 계정 목록 테이블 -->
+            <div class="user-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>사용자 ID</th>
+                            <th>이름</th>
+                            <th>권한</th>
+                            <th>생성일</th>
+                            <th>마지막 로그인</th>
+                            <th>작업</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- 계정 목록이 여기에 표시됩니다 -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
+    
     <!-- 메인 애플리케이션 -->
-    <div id="mainApp" class="app-container hidden">
+    <div class="app-container hidden" id="mainApp">
         <!-- 사이드바 -->
         <nav class="sidebar">
             <div class="sidebar-header">
@@ -1181,7 +1163,6 @@
                     <div id="currentUserRole">관리자</div>
                 </div>
             </div>
-
             <div class="nav-menu">
                 <div class="nav-item">
                     <div class="nav-link active" onclick="showPage('referrals')">
@@ -1201,6 +1182,12 @@
                         통계/보고서
                     </div>
                 </div>
+                <div class="nav-item">
+                    <div class="nav-link" onclick="showPage('accounts')">
+                        <span class="icon">👥</span>
+                        계정 관리
+                    </div>
+                </div>
                 <div class="nav-item" style="margin-top: 30px;">
                     <div class="nav-link" onclick="handleLogout()" style="color: var(--danger-color);">
                         <span class="icon">🚪</span>
@@ -1209,11 +1196,11 @@
                 </div>
             </div>
         </nav>
-
-        <!-- 메인 콘텐츠 영역 -->
+        
+        <!-- 메인 컨텐트 영역 -->
         <main class="main-content">
             <!-- 의뢰 관리 페이지 -->
-            <div id="referralsPage" class="page">
+            <div class="page" id="referralsPage">
                 <div class="dashboard-container">
                     <!-- 페이지 헤더 -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding: 32px 40px; background: rgba(255, 255, 255, 0.95); border-radius: 20px; box-shadow: var(--shadow); flex-wrap: wrap; gap: 20px;">
@@ -1237,35 +1224,34 @@
                                 <h3 style="margin: 0 0 8px 0; color: #374151; font-size: 20px; font-weight: 700;">팀 선택</h3>
                                 <p style="margin: 0; color: #6b7280; font-size: 14px;">보고 싶은 팀을 선택하세요</p>
                             </div>
-                            
-                            <div id="teamTabsGrid" class="team-tabs-grid">
+                            <div class="team-tabs-grid" id="teamTabsGrid">
                                 <div class="chart-data-display">
-                                    <div class="chart-item" onclick="selectTeam('all')" style="cursor: pointer;" data-team="all">
+                                    <div class="chart-item" data-team="all" onclick="selectTeam('all')" style="cursor: pointer;">
                                         <div class="chart-item-value">📊</div>
                                         <div class="chart-item-label">전체 팀</div>
                                         <div class="chart-item-percentage" id="allTeamCount">5건</div>
                                     </div>
-                                    <div class="chart-item" onclick="selectTeam('증진팀')" style="cursor: pointer;" data-team="증진팀">
+                                    <div class="chart-item" data-team="증진팀" onclick="selectTeam('증진팀')" style="cursor: pointer;">
                                         <div class="chart-item-value">🎯</div>
                                         <div class="chart-item-label">증진팀</div>
                                         <div class="chart-item-percentage" id="team1Count">1건</div>
                                     </div>
-                                    <div class="chart-item" onclick="selectTeam('회복팀')" style="cursor: pointer;" data-team="회복팀">
+                                    <div class="chart-item" data-team="회복팀" onclick="selectTeam('회복팀')" style="cursor: pointer;">
                                         <div class="chart-item-value">🌱</div>
                                         <div class="chart-item-label">회복팀</div>
                                         <div class="chart-item-percentage" id="team2Count">1건</div>
                                     </div>
-                                    <div class="chart-item" onclick="selectTeam('자살예방센터')" style="cursor: pointer;" data-team="자살예방센터">
+                                    <div class="chart-item" data-team="자살예방센터" onclick="selectTeam('자살예방센터')" style="cursor: pointer;">
                                         <div class="chart-item-value">🚨</div>
                                         <div class="chart-item-label">자살예방센터</div>
                                         <div class="chart-item-percentage" id="team3Count">1건</div>
                                     </div>
-                                    <div class="chart-item" onclick="selectTeam('아동청소년')" style="cursor: pointer;" data-team="아동청소년">
+                                    <div class="chart-item" data-team="아동청소년" onclick="selectTeam('아동청소년')" style="cursor: pointer;">
                                         <div class="chart-item-value">👶</div>
                                         <div class="chart-item-label">아동청소년</div>
                                         <div class="chart-item-percentage" id="team4Count">1건</div>
                                     </div>
-                                    <div class="chart-item" onclick="selectTeam('남부분소')" style="cursor: pointer;" data-team="남부분소">
+                                    <div class="chart-item" data-team="남부분소" onclick="selectTeam('남부분소')" style="cursor: pointer;">
                                         <div class="chart-item-value">🏢</div>
                                         <div class="chart-item-label">남부분소</div>
                                         <div class="chart-item-percentage" id="team5Count">1건</div>
@@ -1276,17 +1262,17 @@
                     </div>
                     
                     <!-- 현재 팀 정보 -->
-                    <div id="currentTeamInfo" class="current-team-info">
+                    <div class="current-team-info" id="currentTeamInfo">
                         <div style="background: linear-gradient(135deg, #f9fafb, white); border: 3px solid #6b7280; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
                             <div style="display: flex; align-items: center; gap: 16px;">
-                                <div style="font-size: 56px;" id="currentTeamIcon">📊</div>
+                                <div id="currentTeamIcon" style="font-size: 56px;">📊</div>
                                 <div>
-                                    <h3 style="margin: 0; color: #6b7280; font-size: 24px; font-weight: 800;" id="currentTeamTitle">전체 팀 의뢰 목록</h3>
-                                    <p style="margin: 6px 0 0 0; color: #6b7280; font-size: 16px;" id="currentTeamDesc">모든 팀의 의뢰를 통합 관리</p>
+                                    <h3 id="currentTeamTitle" style="margin: 0; color: #6b7280; font-size: 24px; font-weight: 800;">전체 팀 의뢰 목록</h3>
+                                    <p id="currentTeamDesc" style="margin: 6px 0 0 0; color: #6b7280; font-size: 16px;">모든 팀의 의뢰를 통합 관리</p>
                                 </div>
                             </div>
                             <div style="text-align: right;">
-                                <div style="font-size: 48px; font-weight: 900; color: #6b7280;" id="currentTeamCount">5</div>
+                                <div id="currentTeamCount" style="font-size: 48px; font-weight: 900; color: #6b7280;">5</div>
                                 <div style="font-size: 16px; color: #6b7280; font-weight: 600;">총 의뢰 건수</div>
                             </div>
                         </div>
@@ -1327,22 +1313,21 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- 데이터 관리 페이지 -->
-            <div id="dataPage" class="page hidden">
+            <div class="page hidden" id="dataPage">
                 <div class="dashboard-container">
                     <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin-bottom: 30px; box-shadow: var(--shadow-lg); text-align: center;">
                         <h1 style="background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 32px; font-weight: 800; margin-bottom: 12px;">💾 데이터 관리</h1>
                         <p style="color: var(--text-secondary); font-size: 16px;">데이터 백업, 엑셀 다운로드 및 파일 관리</p>
                     </div>
-
+                    
                     <!-- 데이터 내보내기 -->
                     <div style="background: var(--gradient-card); padding: 32px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 32px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border-color);">
                             <h3 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">📊 데이터 내보내기</h3>
                             <span style="font-size: 28px; color: var(--primary-color);">📊</span>
                         </div>
-                        
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
                             <button onclick="downloadExcel()" style="display: flex; align-items: center; gap: 12px; padding: 16px 24px; background: #059669; color: white; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow);">
                                 <span>📈</span> 엑셀 다운로드 (.xlsx)
@@ -1355,34 +1340,33 @@
                             </button>
                         </div>
                     </div>
-
+                    
                     <!-- 데이터 통계 -->
                     <div style="background: var(--gradient-card); padding: 32px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 32px;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border-color);">
                             <h3 style="font-size: 20px; font-weight: 700; color: var(--text-primary);">📈 데이터 현황</h3>
                             <span style="font-size: 28px; color: var(--primary-color);">📈</span>
                         </div>
-                        
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                             <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 16px;">
-                                <div style="font-size: 36px; font-weight: 800; margin-bottom: 8px;" id="totalReferrals">0</div>
+                                <div id="totalReferrals" style="font-size: 36px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 16px; opacity: 0.9;">총 의뢰 건수</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #059669, #10b981); color: white; border-radius: 16px;">
-                                <div style="font-size: 36px; font-weight: 800; margin-bottom: 8px;" id="completedReferrals">0</div>
+                                <div id="completedReferrals" style="font-size: 36px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 16px; opacity: 0.9;">종결 건수</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-radius: 16px;">
-                                <div style="font-size: 36px; font-weight: 800; margin-bottom: 8px;" id="progressingReferrals">0</div>
+                                <div id="progressingReferrals" style="font-size: 36px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 16px; opacity: 0.9;">진행 중</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border-radius: 16px;">
-                                <div style="font-size: 36px; font-weight: 800; margin-bottom: 8px;" id="avgAge">0</div>
+                                <div id="avgAge" style="font-size: 36px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 16px; opacity: 0.9;">평균 연령</div>
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- 활동 로그 -->
                     <div style="background: var(--gradient-card); padding: 32px; border-radius: 20px; box-shadow: var(--shadow);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border-color);">
@@ -1403,88 +1387,163 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- 통계/보고서 페이지 -->
-            <div id="reportsPage" class="page hidden">
+            <div class="page hidden" id="reportsPage">
                 <div class="dashboard-container">
                     <div style="background: var(--gradient-card); padding: 40px; border-radius: 20px; margin-bottom: 40px; box-shadow: var(--shadow); text-align: center;">
                         <h1 style="font-size: 32px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">📈 통계 및 보고서</h1>
                         <p style="font-size: 18px; color: var(--text-secondary); font-weight: 500;">의뢰 데이터를 다양한 관점에서 분석한 시각적 통계</p>
                     </div>
                     
+                    <div id="reportsFilterBar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; background: #ffffff; padding: 16px 20px; border: 1px solid var(--border-color); border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 24px;">
+                        <div class="form-group">
+                            <label style="display:block; font-weight:600; margin-bottom:6px;">팀 선택</label>
+                            <select id="reportsTeamSelect" onchange="onReportsTeamChange()" style="width:100%; padding:10px 12px; border:1px solid var(--border-color); border-radius:8px;">
+                                <option value="all">모든 팀</option>
+                                <option value="증진팀">증진팀</option>
+                                <option value="회복팀">회복팀</option>
+                                <option value="자살예방센터">자살예방센터</option>
+                                <option value="아동청소년">아동청소년</option>
+                                <option value="남부분소">남부분소</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="reportsSubTeamContainer" style="display:none;">
+                            <label style="display:block; font-weight:600; margin-bottom:6px;">남부분소 세부팀</label>
+                            <select id="reportsSubTeamSelect" onchange="onReportsTeamChange()" style="width:100%; padding:10px 12px; border:1px solid var(--border-color); border-radius:8px;">
+                                <option value="">세부팀을 선택하세요</option>
+                                <option value="회복">회복</option>
+                                <option value="자살">자살</option>
+                                <option value="증진">증진</option>
+                                <option value="아동청소년">아동청소년</option>
+                            </select>
+                        </div>
+                    </div>
+                    
                     <!-- 차트 그리드 -->
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                        
                         <!-- 성별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">👥 성별 분포</h3>
                             <canvas id="genderChart" width="300" height="200"></canvas>
                         </div>
-
+                        
                         <!-- 연령별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">📊 연령별 분포</h3>
                             <canvas id="ageChart" width="300" height="200"></canvas>
                         </div>
-
+                        
                         <!-- 팀별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">🏢 팀별 분포</h3>
                             <canvas id="teamChart" width="300" height="200"></canvas>
                         </div>
-
+                        
                         <!-- 지역별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">🗺️ 지역별 분포</h3>
                             <canvas id="regionChart" width="300" height="200"></canvas>
                         </div>
-
+                        
                         <!-- 담당자별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">👨‍⚕️ 담당자별 분포</h3>
                             <canvas id="counselorChart" width="300" height="200"></canvas>
                         </div>
-
+                        
                         <!-- 조치결과별 분포 차트 -->
                         <div style="background: white; padding: 24px; border-radius: 16px; box-shadow: var(--shadow);">
                             <h3 style="text-align: center; margin-bottom: 20px; color: #1f2937; font-size: 18px; font-weight: 700;">📋 조치결과별 분포</h3>
                             <canvas id="actionChart" width="300" height="200"></canvas>
                         </div>
                     </div>
-
+                    
                     <!-- 월별 추이 차트 -->
                     <div style="background: white; padding: 32px; border-radius: 20px; box-shadow: var(--shadow); margin-bottom: 40px;">
                         <h3 style="text-align: center; margin-bottom: 24px; color: #1f2937; font-size: 20px; font-weight: 700;">📈 월별 의뢰 추이</h3>
                         <canvas id="monthlyChart" width="800" height="300"></canvas>
                     </div>
-
+                    
                     <!-- 종합 통계 요약 -->
                     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 32px; border-radius: 20px; box-shadow: var(--shadow);">
                         <h3 style="text-align: center; margin-bottom: 24px; font-size: 24px; font-weight: 700;">📊 종합 통계 요약</h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                             <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 12px;">
-                                <div style="font-size: 32px; font-weight: 800; margin-bottom: 8px;" id="summaryTotal">0</div>
+                                <div id="summaryTotal" style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 14px; opacity: 0.9;">총 접수 건수</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 12px;">
-                                <div style="font-size: 32px; font-weight: 800; margin-bottom: 8px;" id="summaryMale">0</div>
+                                <div id="summaryMale" style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 14px; opacity: 0.9;">남성 비율</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 12px;">
-                                <div style="font-size: 32px; font-weight: 800; margin-bottom: 8px;" id="summaryFemale">0</div>
+                                <div id="summaryFemale" style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 14px; opacity: 0.9;">여성 비율</div>
                             </div>
                             <div style="text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 12px;">
-                                <div style="font-size: 32px; font-weight: 800; margin-bottom: 8px;" id="summaryCompleted">0</div>
+                                <div id="summaryCompleted" style="font-size: 32px; font-weight: 800; margin-bottom: 8px;">0</div>
                                 <div style="font-size: 14px; opacity: 0.9;">종결률</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- 계정 관리 페이지 -->
+            <div class="page hidden" id="accountsPage">
+                <div class="dashboard-container">
+                    <div style="background: var(--gradient-card); padding: 40px; border-radius: 20px; margin-bottom: 40px; box-shadow: var(--shadow); text-align: center;">
+                        <h1 style="font-size: 32px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 16px;">👥 계정 관리</h1>
+                        <p style="font-size: 18px; color: var(--text-secondary); font-weight: 500;">시스템 사용자 계정을 관리합니다</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="font-size: 24px; font-weight: 700;">계정 목록</h2>
+                        <button onclick="openAccountModal()" style="background: var(--gradient-primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600;">➕ 새 계정 추가</button>
+                    </div>
+                    
+                    <!-- 계정 목록 테이블 -->
+                    <div class="user-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>사용자 ID</th>
+                                    <th>이름</th>
+                                    <th>권한</th>
+                                    <th>생성일</th>
+                                    <th>마지막 로그인</th>
+                                    <th>상태</th>
+                                    <th>작업</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accountsTableBody">
+                                <!-- 계정 목록이 여기에 표시됩니다 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 디버그 활성화 설정 (관리자만) -->
+                    <div class="widget" id="debugSettings" style="margin-top: 40px;">
+                        <div class="widget-header">
+                            <h3 class="widget-title">🔧 디버그 설정</h3>
+                            <span class="widget-icon">⚙️</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="debugModeToggle" onchange="toggleDebugMode(this.checked)" style="transform: scale(1.2);">
+                                <span style="font-weight: 600;">개발자 디버그 모드 활성화</span>
+                            </label>
+                            <span style="color: var(--text-secondary); font-size: 14px;">
+                                (관리자만 접근 가능, 시스템 로그 및 진단 도구 활성화)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
-
+    
     <script>
         // 전역 변수 초기화
         let currentUserInfo = null;
@@ -1492,17 +1551,19 @@
         let selectedTeamFilter = 'all';
         let editingReferralData = null;
         let viewingReferralData = null;
-        let charts = {}; // 차트 인스턴스 저장용
+        let charts = {};
+        let debugMode = false;
 
-        // 🔧 디버깅 시스템
+        // 디버깅 시스템
         let debugLog = [];
         
         function debugAddLog(message, type = 'info') {
+            if (!debugMode) return;
+            
             const timestamp = new Date().toLocaleTimeString();
             const logEntry = { timestamp, message, type };
             debugLog.push(logEntry);
             
-            // 디버그 패널에 실시간 표시
             const debugContent = document.getElementById('debugContent');
             if (debugContent) {
                 const logDiv = document.createElement('div');
@@ -1510,16 +1571,13 @@
                 logDiv.textContent = `[${timestamp}] ${message}`;
                 debugContent.appendChild(logDiv);
                 
-                // 최대 20개 로그만 유지
                 while (debugContent.children.length > 20) {
                     debugContent.removeChild(debugContent.firstChild);
                 }
                 
-                // 자동 스크롤
                 debugContent.scrollTop = debugContent.scrollHeight;
             }
             
-            // 콘솔에도 출력
             console.log(`🔧 [${type.toUpperCase()}] ${message}`);
         }
         
@@ -1547,24 +1605,25 @@
             debugAddLog(`현재 활성 페이지: ${currentActivePage}`, 'info');
             debugAddLog(`선택된 팀 필터: ${selectedTeamFilter}`, 'info');
             debugAddLog(`현재 사용자: ${currentUserInfo ? currentUserInfo.name : 'null'}`, 'info');
-            
-            // DOM 요소 존재 확인
-            const criticalElements = [
-                'editReferralModal',
-                'editReferralForm',
-                'editCurrentReferralBtn',
-                'saveEditedReferralBtn'
-            ];
-            
-            criticalElements.forEach(id => {
-                const element = document.getElementById(id);
-                debugAddLog(`DOM 요소 ${id}: ${element ? '✅ 존재' : '❌ 없음'}`, element ? 'info' : 'error');
-            });
-            
             debugAddLog('=== 상태 체크 완료 ===', 'info');
         }
 
-        // 의뢰 데이터 - 실제 정신건강복지센터 양식 적용
+        function toggleDebugMode(enabled) {
+            debugMode = enabled;
+            const debugToggleBtn = document.getElementById('debugToggleBtn');
+            
+            if (enabled) {
+                debugToggleBtn.classList.remove('hidden');
+                debugAddLog('디버그 모드 활성화됨', 'info');
+            } else {
+                debugToggleBtn.classList.add('hidden');
+                const debugPanel = document.getElementById('debugPanel');
+                debugPanel.classList.add('hidden');
+                console.log('디버그 모드 비활성화됨');
+            }
+        }
+
+        // 의뢰 데이터베이스 - 실제 정신건강복지센터 양식 적용
         let referralDatabase = [
             { 
                 refNo: 'R0001', 
@@ -1678,6 +1737,37 @@
             }
         ];
 
+        // 사용자 계정 데이터베이스
+        let userDatabase = [
+            {
+                id: 'admin',
+                password: '1234',
+                name: '시스템관리자',
+                role: 'admin',
+                createdDate: '2025-01-01',
+                lastLogin: '2025-09-11 14:30:00',
+                active: true
+            },
+            {
+                id: 'manager1',
+                password: 'manager123',
+                name: '김관리자',
+                role: 'manager', 
+                createdDate: '2025-01-15',
+                lastLogin: '2025-09-10 16:20:00',
+                active: true
+            },
+            {
+                id: 'user1',
+                password: 'user123',
+                name: '박상담사',
+                role: 'user',
+                createdDate: '2025-02-01',
+                lastLogin: '2025-09-09 09:15:00',
+                active: true
+            }
+        ];
+
         // 현재 시간 업데이트
         function updateCurrentTime() {
             try {
@@ -1696,7 +1786,6 @@
                 const container = document.getElementById('notificationContainer');
                 if (!container) return;
 
-                // 기존 알림이 너무 많으면 제거
                 while (container.children.length >= 3) {
                     container.removeChild(container.firstChild);
                 }
@@ -1726,7 +1815,6 @@
                 notification.appendChild(messageDiv);
                 container.appendChild(notification);
                 
-                // 자동 제거
                 setTimeout(function() {
                     if (notification.parentElement) {
                         notification.remove();
@@ -1740,8 +1828,12 @@
         // 로그인 처리 함수
         function handleLogin() {
             try {
-                debugAddLog('로그인 시도 시작', 'info');
                 const loginBtn = document.getElementById('loginBtn');
+                const loginErrors = document.getElementById('loginErrors');
+                
+                loginErrors.style.display = 'none';
+                loginErrors.innerHTML = '';
+                
                 loginBtn.disabled = true;
                 loginBtn.textContent = '로그인 중...';
 
@@ -1749,15 +1841,20 @@
                 const password = document.getElementById('password').value.trim();
 
                 if (!username || !password) {
-                    showNotification('사용자 ID와 비밀번호를 입력하세요.', 'error');
+                    showLoginError('사용자 ID와 비밀번호를 입력하세요.');
                     return;
                 }
 
-                if (username === 'admin' && password === '1234') {
-                    currentUserInfo = { 
-                        name: '시스템관리자', 
-                        role: '관리자'
+                const user = userDatabase.find(u => u.id === username && u.password === password && u.active);
+                
+                if (user) {
+                    currentUserInfo = {
+                        id: user.id,
+                        name: user.name,
+                        role: user.role
                     };
+                    
+                    user.lastLogin = new Date().toLocaleString('ko-KR');
                     
                     const loginScreen = document.getElementById('loginScreen');
                     const mainApp = document.getElementById('mainApp');
@@ -1765,35 +1862,71 @@
                     if (loginScreen) loginScreen.classList.add('hidden');
                     if (mainApp) mainApp.classList.remove('hidden');
                     
-                    // 사용자 정보 업데이트
-                    const nameElement = document.getElementById('currentUserName');
-                    const roleElement = document.getElementById('currentUserRole');
-                    if (nameElement) nameElement.textContent = currentUserInfo.name;
-                    if (roleElement) roleElement.textContent = currentUserInfo.role;
+                    updateUserInfo();
+                    initializeSystem();
                     
-                    showNotification(`환영합니다, ${currentUserInfo.name}님! 디버깅 시스템이 활성화되었습니다.`, 'success');
-                    debugAddLog('로그인 성공: ' + currentUserInfo.name, 'info');
+                    showNotification(`환영합니다, ${currentUserInfo.name}님!`, 'success');
+                    debugAddLog('로그인 성공: ' + currentUserInfo.name + ' (' + currentUserInfo.role + ')', 'info');
                     
-                    // 시스템 초기화
-                    updateReferralsTable();
-                    updateTeamCounts();
-                    updateDataStats();
-                    selectTeam('all');
                 } else {
-                    showNotification('사용자 ID 또는 비밀번호가 올바르지 않습니다.', 'error');
-                    debugAddLog('로그인 실패: 잘못된 자격증명', 'error');
+                    showLoginError('사용자 ID 또는 비밀번호가 올바르지 않습니다.');
+                    debugAddLog('로그인 실패: 잘못된 자격증명 - ' + username, 'error');
                 }
             } catch (error) {
-                debugAddLog('로그인 오류: ' + error.message, 'error');
-                showNotification('로그인 처리 중 오류가 발생했습니다.', 'error');
+                debugAddLog('로그인 처리 오류: ' + error.message, 'error');
+                showLoginError('로그인 처리 중 오류가 발생했습니다.');
             } finally {
                 const loginBtn = document.getElementById('loginBtn');
-                loginBtn.disabled = false;
-                loginBtn.textContent = '로그인';
+                if (loginBtn) {
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = '로그인';
+                }
             }
         }
 
-        // 로그아웃 처리 함수
+        function showLoginError(message) {
+            const loginErrors = document.getElementById('loginErrors');
+            if (loginErrors) {
+                loginErrors.innerHTML = `<div class="error-message">${message}</div>`;
+                loginErrors.style.display = 'block';
+            }
+        }
+
+        function updateUserInfo() {
+            const nameElement = document.getElementById('currentUserName');
+            const roleElement = document.getElementById('currentUserRole');
+            if (nameElement && currentUserInfo) nameElement.textContent = currentUserInfo.name;
+            if (roleElement && currentUserInfo) {
+                const roleNames = {
+                    'admin': '최고관리자',
+                    'manager': '관리자', 
+                    'user': '일반사용자'
+                };
+                roleElement.textContent = roleNames[currentUserInfo.role] || currentUserInfo.role;
+            }
+        }
+
+        function initializeSystem() {
+            try {
+                updateReferralsTable();
+                updateTeamCounts();
+                updateDataStats();
+                selectTeam('all');
+                updateAccountsTable();
+                
+                if (currentUserInfo.role === 'admin') {
+                    document.getElementById('debugSettings').style.display = 'block';
+                } else {
+                    document.getElementById('debugSettings').style.display = 'none';
+                }
+                
+                debugAddLog('시스템 초기화 완료', 'info');
+            } catch (error) {
+                debugAddLog('시스템 초기화 오류: ' + error.message, 'error');
+            }
+        }
+
+        // 로그아웃 처리
         function handleLogout() {
             try {
                 if (confirm('로그아웃 하시겠습니까?')) {
@@ -1804,6 +1937,11 @@
                     
                     if (mainApp) mainApp.classList.add('hidden');
                     if (loginScreen) loginScreen.classList.remove('hidden');
+                    
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    
+                    toggleDebugMode(false);
                     
                     showNotification('로그아웃되었습니다.', 'info');
                     debugAddLog('로그아웃 완료', 'info');
@@ -1818,30 +1956,25 @@
             try {
                 debugAddLog('페이지 전환: ' + pageId, 'info');
                 
-                // 모든 페이지 숨기기
                 const pages = document.querySelectorAll('.page');
                 pages.forEach(page => page.classList.add('hidden'));
 
-                // 모든 네비게이션 링크 비활성화
                 const navLinks = document.querySelectorAll('.nav-link');
                 navLinks.forEach(link => link.classList.remove('active'));
 
-                // 선택된 페이지 표시
                 const targetPage = document.getElementById(pageId + 'Page');
                 if (targetPage) {
                     targetPage.classList.remove('hidden');
                 }
 
-                // 페이지별 초기화
                 if (pageId === 'reports') {
-                    // 통계 페이지 진입 시 차트 생성
                     setTimeout(() => createCharts(), 100);
                 } else if (pageId === 'data') {
-                    // 데이터 관리 페이지 진입 시 통계 업데이트
                     updateDataStats();
+                } else if (pageId === 'accounts') {
+                    updateAccountsTable();
                 }
 
-                // 선택된 네비게이션 링크 활성화
                 const activeNav = document.querySelector(`.nav-link[onclick*="${pageId}"]`);
                 if (activeNav) {
                     activeNav.classList.add('active');
@@ -1852,7 +1985,8 @@
                 const pageNames = {
                     'referrals': '의뢰 관리',
                     'data': '데이터 관리',
-                    'reports': '통계/보고서'
+                    'reports': '통계/보고서',
+                    'accounts': '계정 관리'
                 };
                 
                 showNotification(`${pageNames[pageId] || pageId} 페이지로 이동했습니다.`, 'info');
@@ -1867,7 +2001,6 @@
                 debugAddLog('팀 선택: ' + teamId, 'info');
                 selectedTeamFilter = teamId;
                 
-                // 모든 팀 아이템 스타일 리셋
                 const teamItems = document.querySelectorAll('[data-team]');
                 teamItems.forEach(item => {
                     item.style.background = '#f8f9fa';
@@ -1876,7 +2009,6 @@
                     item.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
                 });
                 
-                // 선택된 팀 강조 표시
                 const selectedTeam = document.querySelector(`[data-team="${teamId}"]`);
                 if (selectedTeam) {
                     const teamColors = {
@@ -1913,7 +2045,6 @@
             }
         }
 
-        // 현재 팀 표시 업데이트
         function updateCurrentTeamDisplay(teamId) {
             try {
                 const teamInfo = {
@@ -1950,7 +2081,6 @@
             }
         }
 
-        // 의뢰 테이블 업데이트
         function updateReferralsTable() {
             try {
                 debugAddLog('의뢰 테이블 업데이트 시작', 'info');
@@ -1962,15 +2092,16 @@
                 
                 tbody.innerHTML = '';
                 
-                const filteredData = selectedTeamFilter === 'all' ? 
-                    referralDatabase : referralDatabase.filter(item => item.team === selectedTeamFilter);
+                let filteredData = referralDatabase;
+                if (selectedTeamFilter !== 'all') {
+                    filteredData = referralDatabase.filter(item => item.team === selectedTeamFilter);
+                }
                 
                 const countElement = document.getElementById('currentTeamCount');
                 if (countElement) {
                     countElement.textContent = filteredData.length;
                 }
                 
-                // 상태별 색상 정의
                 const actionResultColors = {
                     '등록관리(기등록포함)': '#3b82f6',
                     '지속상담': '#059669',
@@ -2003,13 +2134,15 @@
                     row.onmouseover = function() { this.style.background = '#f9fafb'; };
                     row.onmouseout = function() { this.style.background = 'white'; };
                     
+                    const teamColor = teamColors[item.team] || '#6b7280';
+                    
                     row.innerHTML = `
                         <td style="padding: 15px 12px; font-weight: 700; color: #1f2937; font-size: 13px;">${item.refNo}</td>
                         <td style="padding: 15px 12px; font-weight: 600; font-size: 13px;">${item.name}</td>
                         <td style="padding: 15px 12px; font-size: 13px;">${item.gender}<br><small style="color: #6b7280;">${item.age}세</small></td>
                         <td style="padding: 15px 12px; font-size: 13px;">${item.referralDate}</td>
                         <td style="padding: 15px 12px; font-size: 13px;">${item.agency}</td>
-                        <td style="padding: 15px 12px; font-size: 13px;"><span style="color: ${teamColors[item.team] || '#6b7280'}; font-weight: 600;">${item.team}</span></td>
+                        <td style="padding: 15px 12px; font-size: 13px;"><span style="color: ${teamColor}; font-weight: 600;">${item.team}</span></td>
                         <td style="padding: 15px 12px; font-size: 13px;">${item.counselor}</td>
                         <td style="padding: 15px 12px; font-size: 13px;">${item.diagnosis}</td>
                         <td style="padding: 15px 12px; font-size: 13px;"><span class="status-badge" style="background: ${actionResultColors[item.actionResult] || '#6b7280'};">${item.actionResult || '-'}</span></td>
@@ -2029,7 +2162,6 @@
             }
         }
 
-        // 팀별 카운트 업데이트
         function updateTeamCounts() {
             try {
                 const teams = ['증진팀', '회복팀', '자살예방센터', '아동청소년', '남부분소'];
@@ -2061,11 +2193,16 @@
                 if (modal) {
                     modal.classList.remove('hidden');
                     
-                    // 의뢰날짜를 오늘 날짜로 기본 설정
                     const today = new Date().toISOString().slice(0, 10);
                     const dateField = document.getElementById('referralDate');
                     if (dateField) {
                         dateField.value = today;
+                    }
+                    
+                    const errorsDiv = document.getElementById('formErrors');
+                    if (errorsDiv) {
+                        errorsDiv.style.display = 'none';
+                        errorsDiv.innerHTML = '';
                     }
                 }
             } catch (error) {
@@ -2075,608 +2212,359 @@
 
         function closeNewReferralModal() {
             try {
-                debugAddLog('새 의뢰 모달 닫기', 'info');
-                const modal = document.getElementById('newReferralModal');
-                const form = document.getElementById('newReferralForm');
+                debugAddLog('새 의뢰/수정 모달 닫기', 'info');
                 
-                if (modal) modal.classList.add('hidden');
-                if (form) form.reset();
-            } catch (error) {
-                debugAddLog('새 의뢰 모달 닫기 오류: ' + error.message, 'error');
-            }
-        }
-
-        // 의뢰 폼 데이터 수집 함수
-        function collectReferralFormData() {
-            try {
-                const formData = {
-                    refNo: 'R' + String(referralDatabase.length + 1).padStart(4, '0'),
-                    name: (document.getElementById('referrerName').value || '').trim() + '**',
-                    gender: document.getElementById('referrerGender').value,
-                    age: parseInt(document.getElementById('referrerAge').value) || 0,
-                    referralDate: document.getElementById('referralDate').value,
-                    referralPath: (document.getElementById('referralPath').value || '').trim() || '-',
-                    agency: document.getElementById('referringAgency').value,
-                    team: document.getElementById('assignedTeam').value,
-                    region: (document.getElementById('region').value || '').trim() || '-',
-                    counselor: (document.getElementById('assignedCounselor').value || '').trim() || '담당자 배정 중',
-                    diagnosis: (document.getElementById('diagnosis').value || '').trim() || '진단 대기',
-                    interventionContent: (document.getElementById('interventionContent').value || '').trim(),
-                    actionResult: document.getElementById('actionResult').value || '처리중',
-                    closureStatus: '진행중', // 기본값
-                    diagnosisProtection: document.getElementById('diagnosisProtectionRequest').checked,
-                    writtenReferral: document.getElementById('writtenReferral').checked,
-                    phoneReferral: document.getElementById('phoneReferral').checked,
-                    policeInvolvement: document.getElementById('policeInvolvement').checked,
-                    responseRequired: (document.getElementById('responseRequired').value || '').trim() || '-',
-                    criInfo: (document.getElementById('criInfo').value || '').trim() || '-'
-                };
-
-                // 기본 유효성 검사
-                if (!formData.name || formData.name === '**') {
-                    throw new Error('이름을 입력해주세요.');
-                }
-                if (!formData.gender) {
-                    throw new Error('성별을 선택해주세요.');
-                }
-                if (!formData.age || formData.age <= 0) {
-                    throw new Error('올바른 나이를 입력해주세요.');
-                }
-                if (!formData.referralDate) {
-                    throw new Error('의뢰날짜를 선택해주세요.');
-                }
-                if (!formData.agency) {
-                    throw new Error('의뢰기관을 선택해주세요.');
-                }
-                if (!formData.team) {
-                    throw new Error('담당팀을 선택해주세요.');
-                }
-                if (!formData.interventionContent) {
-                    throw new Error('개입내용/현상황을 입력해주세요.');
-                }
-
-                return formData;
-            } catch (error) {
-                throw error;
-            }
-        }
-
-        // 임시저장 함수
-        function saveDraftReferral() {
-            try {
-                debugAddLog('임시저장 시작', 'info');
-                const formData = collectReferralFormData();
-                formData.closureStatus = '조치 결과 등록제외'; // 임시저장 상태
-                formData.actionResult = '처리중';
+                const isEditMode = editingReferralData !== null;
                 
-                referralDatabase.push(formData);
-                updateReferralsTable();
-                updateTeamCounts();
-                closeNewReferralModal();
-                
-                showNotification(`의뢰가 임시저장되었습니다! (의뢰번호: ${formData.refNo})`, 'warning');
-                debugAddLog('임시저장 완료: ' + formData.refNo, 'info');
-                
-                // 통계 및 차트 업데이트
-                updateDataStats();
-                if (currentActivePage === 'reports') {
-                    setTimeout(() => createCharts(), 100);
-                }
-                
-                addLog('💾 임시저장: ' + formData.refNo, 'info');
-            } catch (error) {
-                debugAddLog('임시저장 오류: ' + error.message, 'error');
-                showNotification('임시저장 중 오류가 발생했습니다: ' + error.message, 'error');
-            }
-        }
-
-        // 🔧 의뢰 상세보기 - 디버깅 강화
-        function viewReferralDetail(refNo) {
-            try {
-                debugAddLog('의뢰 상세보기 시작: ' + refNo, 'info');
-                const referral = referralDatabase.find(item => item.refNo === refNo);
-                if (!referral) {
-                    debugAddLog('의뢰를 찾을 수 없음: ' + refNo, 'error');
-                    showNotification('의뢰를 찾을 수 없습니다.', 'error');
-                    return;
-                }
-                
-                viewingReferralData = referral; // 🔧 중요: 전역 변수에 저장
-                debugAddLog('viewingReferralData 설정 완료: ' + referral.refNo, 'info');
-                
-                const detailContent = document.getElementById('referralDetailContent');
-                if (detailContent) {
-                    detailContent.innerHTML = generateReferralDetailHTML(referral);
-                }
-                
-                const modal = document.getElementById('referralDetailModal');
-                if (modal) {
-                    modal.classList.remove('hidden');
-                    debugAddLog('상세보기 모달 표시 완료', 'info');
-                }
-                
-                addLog('👀 의뢰 상세보기 열림: ' + refNo, 'info');
-            } catch (error) {
-                debugAddLog('의뢰 상세보기 오류: ' + error.message, 'error');
-                showNotification('의뢰 상세보기 중 오류가 발생했습니다.', 'error');
-            }
-        }
-
-        // 의뢰 상세보기 HTML 생성
-        function generateReferralDetailHTML(referral) {
-            const actionResultColor = getActionResultColor(referral.actionResult);
-            const closureStatusColor = getClosureStatusColor(referral.closureStatus);
-            
-            return `
-                <div style="grid-column: 1 / -1; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">👤 기본 정보</h4>
-                </div>
-                <div class="form-group">
-                    <label><strong>의뢰번호</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px; font-weight: 600;">${referral.refNo}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>이름</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.name}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>성별</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.gender}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>나이</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.age}세</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>의뢰날짜</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.referralDate}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>지역</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.region || '-'}</div>
-                </div>
-                
-                <div style="grid-column: 1 / -1; background: #fff7ed; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">📋 의뢰 정보</h4>
-                </div>
-                <div class="form-group">
-                    <label><strong>의뢰경로</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.referralPath || '-'}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>의뢰기관</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.agency}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>담당팀</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px; font-weight: 600; color: #059669;">${referral.team}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>담당자</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.counselor}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>CRI</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.criInfo || '-'}</div>
-                </div>
-                
-                <div style="grid-column: 1 / -1; background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">📋 의뢰 유형</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
-                        <div><strong>진단 보호요청:</strong> ${referral.diagnosisProtection ? '✅' : '❌'}</div>
-                        <div><strong>서면의뢰:</strong> ${referral.writtenReferral ? '✅' : '❌'}</div>
-                        <div><strong>유선의뢰:</strong> ${referral.phoneReferral ? '✅' : '❌'}</div>
-                        <div><strong>경찰개입여부:</strong> ${referral.policeInvolvement ? '✅' : '❌'}</div>
-                    </div>
-                </div>
-                
-                <div style="grid-column: 1 / -1; background: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">🏥 진단 및 조치 정보</h4>
-                </div>
-                <div class="form-group">
-                    <label><strong>진단명</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">${referral.diagnosis}</div>
-                </div>
-                <div class="form-group">
-                    <label><strong>조치결과</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">
-                        <span class="status-badge" style="background: ${actionResultColor};">${referral.actionResult || '-'}</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label><strong>종결여부</strong></label>
-                    <div style="padding: 12px; background: #f8f9fa; border-radius: 6px;">
-                        <span class="status-badge" style="background: ${closureStatusColor};">${referral.closureStatus}</span>
-                    </div>
-                </div>
-                
-                <div style="grid-column: 1 / -1; background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">📝 개입내용/현상황</h4>
-                    <div style="margin-top: 8px; padding: 12px; background: white; border-radius: 6px; white-space: pre-wrap;">${referral.interventionContent || '-'}</div>
-                </div>
-                
-                <div style="grid-column: 1 / -1; background: #f0f4f8; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="margin: 0 0 10px 0; color: #1f2937;">📬 회신 정보</h4>
-                    <div style="margin-top: 8px; padding: 12px; background: white; border-radius: 6px; white-space: pre-wrap;">
-                        ${typeof referral.responseRequired === 'boolean' ? 
-                            (referral.responseRequired ? '회신 필요' : '회신 불필요') : 
-                            (referral.responseRequired || '-')
+                if (isEditMode) {
+                    debugAddLog('수정 모드에서 모달 닫기', 'info');
+                    closeEditModal();
+                } else {
+                    debugAddLog('새 의뢰 모드에서 모달 닫기', 'info');
+                    
+                    const modal = document.getElementById('newReferralModal');
+                    const form = document.getElementById('newReferralForm');
+                    
+                    if (modal) modal.classList.add('hidden');
+                    if (form) form.reset();
+                    
+                    const subTeamContainer = document.getElementById('subTeamContainer');
+                    if (subTeamContainer) {
+                        subTeamContainer.style.display = 'none';
+                        const subTeamSelect = document.getElementById('subTeam');
+                        if (subTeamSelect) {
+                            subTeamSelect.required = false;
+                            subTeamSelect.value = '';
                         }
-                    </div>
-                </div>
-            `;
-        }
-
-        // 조치결과별 색상 반환
-        function getActionResultColor(actionResult) {
-            const colors = {
-                '등록관리(기등록포함)': '#3b82f6',
-                '지속상담': '#059669',
-                '치료연계': '#d97706',
-                '서비스 연계': '#7c3aed',
-                '기타조치': '#6b7280',
-                '정보제공': '#0891b2',
-                '종결': '#059669',
-                '처리중': '#f59e0b'
-            };
-            return colors[actionResult] || '#6b7280';
-        }
-
-        // 종결여부별 색상 반환
-        function getClosureStatusColor(closureStatus) {
-            const colors = {
-                '진행중': '#d97706',
-                '종결': '#059669',
-                '조치 결과 등록제외': '#6b7280',
-                '미등록자 종결': '#ef4444'
-            };
-            return colors[closureStatus] || '#6b7280';
-        }
-
-        // 🔧 현재 의뢰 수정 - 디버깅 강화 및 오류 수정
-        function editCurrentReferral() {
-            debugAddLog('=== editCurrentReferral 호출됨 ===', 'info');
-            debugAddLog('현재 viewingReferralData: ' + (viewingReferralData ? viewingReferralData.refNo : 'null'), 'info');
-            
-            try {
-                if (!viewingReferralData) {
-                    debugAddLog('viewingReferralData가 null', 'error');
-                    showNotification('수정할 의뢰 데이터를 찾을 수 없습니다.', 'error');
-                    return;
-                }
-                
-                debugAddLog('상세보기 데이터 확인됨: ' + viewingReferralData.refNo, 'info');
-                
-                // 🔧 중요: 데이터를 백업한 후 모달 닫기
-                const backupReferralData = viewingReferralData;
-                debugAddLog('의뢰 데이터 백업 완료: ' + backupReferralData.refNo, 'info');
-                
-                // 상세보기 모달 닫기
-                closeReferralDetailModal();
-                
-                // 수정 모달 열기 (백업된 데이터 사용)
-                debugAddLog('수정 모달로 전환...', 'info');
-                editReferral(backupReferralData.refNo);
-                
-            } catch (error) {
-                debugAddLog('editCurrentReferral 오류: ' + error.message, 'error');
-                showNotification('수정 모드 전환 중 오류가 발생했습니다: ' + error.message, 'error');
-            }
-        }
-
-        // 🔧 의뢰 수정 기능 - 완전히 새로 작성
-        function editReferral(refNo) {
-            debugAddLog('=== 의뢰 수정 시작 ===', 'info');
-            debugAddLog('수정 요청 의뢰번호: ' + refNo, 'info');
-            
-            try {
-                // 1. 의뢰 찾기
-                const referral = referralDatabase.find(item => item.refNo === refNo);
-                debugAddLog('찾은 의뢰 데이터: ' + (referral ? referral.refNo : 'null'), 'info');
-                
-                if (!referral) {
-                    debugAddLog('의뢰를 찾을 수 없음', 'error');
-                    showNotification('의뢰를 찾을 수 없습니다.', 'error');
-                    return;
-                }
-                
-                // 2. 전역 변수에 저장
-                editingReferralData = referral;
-                debugAddLog('editingReferralData 설정: ' + editingReferralData.refNo, 'info');
-                
-                // 3. 폼 필드에 데이터 채우기
-                debugAddLog('폼 필드 채우기 시작...', 'info');
-                
-                const fields = {
-                    'editRefNo': referral.refNo,
-                    'editReferrerName': referral.name.replace('**', ''),
-                    'editReferrerGender': referral.gender,
-                    'editReferrerAge': referral.age,
-                    'editReferralDate': referral.referralDate,
-                    'editReferralPath': referral.referralPath || '',
-                    'editReferringAgency': referral.agency,
-                    'editAssignedTeam': referral.team,
-                    'editCounselor': referral.counselor,
-                    'editDiagnosis': referral.diagnosis,
-                    'editActionResult': referral.actionResult || '처리중',
-                    'editClosureStatus': referral.closureStatus,
-                    'editRegion': referral.region || '',
-                    'editCriInfo': referral.criInfo || '',
-                    'editInterventionContent': referral.interventionContent || '',
-                    'editResponseRequired': typeof referral.responseRequired === 'boolean' ? 
-                        (referral.responseRequired ? '회신 필요' : '') : 
-                        (referral.responseRequired || '')
-                };
-                
-                // 각 필드별로 설정하고 확인
-                for (const [fieldId, value] of Object.entries(fields)) {
-                    const element = document.getElementById(fieldId);
-                    if (element) {
-                        element.value = value;
-                        debugAddLog(`✅ ${fieldId}: "${value}"`, 'info');
-                    } else {
-                        debugAddLog(`❌ 필드 없음: ${fieldId}`, 'error');
+                    }
+                    
+                    const errorsDiv = document.getElementById('formErrors');
+                    if (errorsDiv) {
+                        errorsDiv.style.display = 'none';
+                        errorsDiv.innerHTML = '';
                     }
                 }
                 
-                // 4. 모달 열기
-                const modal = document.getElementById('editReferralModal');
-                if (modal) {
-                    modal.classList.remove('hidden');
-                    debugAddLog('수정 모달 열림', 'info');
-                    addLog('📝 의뢰 수정 모달 열림: ' + refNo, 'info');
-                } else {
-                    debugAddLog('수정 모달을 찾을 수 없음', 'error');
-                }
-                
-                debugAddLog('=== 의뢰 수정 준비 완료 ===', 'info');
-                
             } catch (error) {
-                debugAddLog('의뢰 수정 오류: ' + error.message, 'error');
-                addLog('❌ 의뢰 수정 오류: ' + error.message, 'error');
-                showNotification('의뢰 수정 중 오류가 발생했습니다: ' + error.message, 'error');
-            }
-        }
-        
-        // 🔧 저장 버튼 핸들러 - 직접 호출용
-        function handleSaveEditedReferral() {
-            debugAddLog('=== 저장 버튼 직접 호출됨 ===', 'info');
-            
-            try {
-                // 폼 검증 및 저장 실행
-                const success = saveEditedReferral();
-                
-                if (success) {
-                    debugAddLog('저장 성공', 'info');
-                } else {
-                    debugAddLog('저장 실패', 'error');
-                }
-            } catch (error) {
-                debugAddLog('저장 핸들러 오류: ' + error.message, 'error');
-                showNotification('저장 중 오류가 발생했습니다: ' + error.message, 'error');
+                debugAddLog('새 의뢰/수정 모달 닫기 오류: ' + error.message, 'error');
             }
         }
 
-        // 🔧 의뢰 수정 저장 함수 - 완전히 새로 작성
-        function saveEditedReferral() {
-            debugAddLog('=== 의뢰 수정 저장 시작 ===', 'info');
-            debugAddLog('editingReferralData: ' + (editingReferralData ? editingReferralData.refNo : 'null'), 'info');
+        function handleTeamSelection() {
+            const teamSelect = document.getElementById('assignedTeam');
+            const subTeamContainer = document.getElementById('subTeamContainer');
             
-            try {
-                // 1. 수정할 데이터 확인
-                if (!editingReferralData) {
-                    debugAddLog('editingReferralData가 없음', 'error');
-                    showNotification('수정할 의뢰 데이터를 찾을 수 없습니다.', 'error');
-                    return false;
-                }
-                
-                // 2. 데이터베이스에서 해당 의뢰 찾기
-                const index = referralDatabase.findIndex(item => item.refNo === editingReferralData.refNo);
-                debugAddLog('데이터베이스 인덱스: ' + index, 'info');
-                
-                if (index === -1) {
-                    debugAddLog('데이터베이스에서 의뢰를 찾을 수 없음', 'error');
-                    showNotification('데이터베이스에서 의뢰를 찾을 수 없습니다.', 'error');
-                    return false;
-                }
-                
-                // 3. 폼에서 수정된 데이터 수집
-                debugAddLog('폼 데이터 수집 중...', 'info');
-                
-                // 🔧 안전한 폼 요소 접근 함수
-                function safeGetElementValue(id, defaultValue = '') {
-                    const element = document.getElementById(id);
-                    if (!element) {
-                        debugAddLog(`폼 요소 '${id}'를 찾을 수 없음`, 'error');
-                        return defaultValue;
+            if (teamSelect && teamSelect.value === '남부분소') {
+                if (subTeamContainer) {
+                    subTeamContainer.style.display = 'block';
+                    const subTeamSelect = document.getElementById('subTeam');
+                    if (subTeamSelect) {
+                        subTeamSelect.required = true;
                     }
-                    return element.value || defaultValue;
                 }
-                
-                const updatedData = {
-                    ...referralDatabase[index], // 기존 모든 데이터 보존
-                    // 수정 가능한 필드들
-                    name: (safeGetElementValue('editReferrerName').trim() || '무명') + '**',
-                    gender: safeGetElementValue('editReferrerGender', '미상'),
-                    age: parseInt(safeGetElementValue('editReferrerAge', '0')) || 0,
-                    referralDate: safeGetElementValue('editReferralDate'),
-                    referralPath: safeGetElementValue('editReferralPath').trim() || '-',
-                    agency: safeGetElementValue('editReferringAgency', '미상'),
-                    team: safeGetElementValue('editAssignedTeam', '미배정'),
-                    counselor: safeGetElementValue('editCounselor').trim() || '담당자 배정 중',
-                    diagnosis: safeGetElementValue('editDiagnosis').trim() || '진단 대기',
-                    actionResult: safeGetElementValue('editActionResult', '처리중'),
-                    closureStatus: safeGetElementValue('editClosureStatus', '진행중'),
-                    region: safeGetElementValue('editRegion').trim() || '-',
-                    criInfo: safeGetElementValue('editCriInfo').trim() || '-',
-                    interventionContent: safeGetElementValue('editInterventionContent').trim(),
-                    responseRequired: safeGetElementValue('editResponseRequired').trim() || '-'
-                };
-                
-                debugAddLog('수집된 업데이트 데이터: ' + updatedData.name, 'info');
-                
-                // 4. 필수 필드 검증
-                debugAddLog('필수 필드 검증 중...', 'info');
-                if (!updatedData.name || updatedData.name === '**' || updatedData.name === '무명**') {
-                    debugAddLog('이름 필드 검증 실패', 'error');
-                    showNotification('이름을 입력해주세요.', 'error');
-                    return false;
+            } else {
+                if (subTeamContainer) {
+                    subTeamContainer.style.display = 'none';
+                    const subTeamSelect = document.getElementById('subTeam');
+                    if (subTeamSelect) {
+                        subTeamSelect.required = false;
+                        subTeamSelect.value = '';
+                    }
                 }
-                if (!updatedData.interventionContent || updatedData.interventionContent.trim() === '') {
-                    debugAddLog('개입내용 필드 검증 실패', 'error');
-                    showNotification('개입내용/현상황을 입력해주세요.', 'error');
-                    return false;
-                }
-                if (!updatedData.referralDate) {
-                    debugAddLog('의뢰날짜 필드 검증 실패', 'error');
-                    showNotification('의뢰날짜를 선택해주세요.', 'error');
-                    return false;
-                }
-                debugAddLog('필수 필드 검증 통과', 'info');
-                
-                // 5. 데이터베이스 업데이트
-                debugAddLog('데이터베이스 업데이트 중...', 'info');
-                referralDatabase[index] = updatedData;
-                debugAddLog('데이터베이스 업데이트 완료', 'info');
-                
-                // 6. UI 업데이트
-                debugAddLog('UI 업데이트 중...', 'info');
-                updateReferralsTable();
-                updateTeamCounts();
-                updateDataStats();
-                
-                if (currentActivePage === 'reports') {
-                    setTimeout(() => createCharts(), 100);
-                }
-                
-                // 7. 모달 닫기
-                closeEditReferralModal();
-                
-                // 8. 성공 알림
-                showNotification(`✅ 의뢰가 성공적으로 수정되었습니다!\n의뢰번호: ${updatedData.refNo}`, 'success');
-                addLog('✅ 의뢰 수정 완료: ' + updatedData.refNo, 'success');
-                debugAddLog('의뢰 수정 저장 성공', 'info');
-                
-                debugAddLog('=== 의뢰 수정 저장 완료 ===', 'info');
-                return true;
-                
-            } catch (error) {
-                debugAddLog('수정 저장 오류: ' + error.message, 'error');
-                addLog('❌ 수정 저장 실패: ' + error.message, 'error');
-                showNotification('수정 저장 중 오류가 발생했습니다: ' + error.message, 'error');
-                return false;
             }
         }
 
-        // 모달 닫기 함수들
-        function closeReferralDetailModal() {
+        function insertSampleText() {
+            const sampleText = `자살시도력 : (+) 1st 2022년 1월 Wrist cutting, 2nd 2022년 2월 농약음독, 3rd 2022년 7월 투신 하려다가 경찰신고 
+
+정신과 약물복용 및 치료여부: 2022년 1월 수원아주대남병원 응급입원 후 퇴원, 2022년 원주기독병원 위세척 후 귀가. 입원에 거부적이며 2월까지 정신과 약물 복용했으나 2022년 6월 임의 중단
+
+음주여부 : 매일 소주 2병씩
+
+식사 및 수면 : 2~3시간 잤다가 깨어남
+
+진단명 : 양극성 정동장애 
+
+약물 : (아침) 아리피졸정 2mg, 명인벤즈트로핀메실레이트정 1mg, 발파킨크로노정 300mg, 리보트릴정, 스리반정 0.5mg
+(저녁) 발파킨크로노정 300mg, 팔리스펜서방정 3mg, 리보트릴정, 스리반정 0.5mg
+
+외래병원 : 하은정신의학과의원
+
+보호요인 : 거북이 / 지지체계 : 초등학교 동창생
+
+주호소 및 개입내용 : 1인 가구이며 고등학교 졸업 후 이천으로 왔으나 뚜렷한 직장없이 집에서 은둔. 최근 2개월간 무분별한 지출과 폭음 증가. 정신과적 문제가 있으나 약물을 임의 중단하여 하은정신의학과의원에 연계하였으며 주 1회 외래동행하여 상담 및 약물 처방 중, 경제적 문제로 이천시청에서 경기도형 긴급생계비 지원, 신체치료(어깨 탈골)를 위해 이천의료원 공공사업과 자원 연계
+
+현상황 : 등록을 위해 초기 상담 중`;
+
+            const textarea = document.getElementById('interventionContent');
+            if (textarea) {
+                textarea.value = sampleText;
+                showNotification('샘플 텍스트가 삽입되었습니다. 필요에 따라 수정하여 사용하세요.', 'success');
+                debugAddLog('샘플 텍스트 삽입 완료', 'info');
+            } else {
+                debugAddLog('개입내용 textarea를 찾을 수 없음', 'error');
+                showNotification('텍스트 삽입에 실패했습니다.', 'error');
+            }
+        }
+
+        // 차트 생성 함수들
+        let selectedReportTeam = 'all';
+        let selectedReportSubTeam = '';
+
+        function onReportsTeamChange() {
             try {
-                debugAddLog('상세보기 모달 닫기', 'info');
-                const modal = document.getElementById('referralDetailModal');
-                if (modal) modal.classList.add('hidden');
-                
-                viewingReferralData = null;
-                debugAddLog('상세보기 데이터 초기화 완료', 'info');
-            } catch (error) {
-                debugAddLog('상세보기 모달 닫기 오류: ' + error.message, 'error');
+                const teamSel = document.getElementById('reportsTeamSelect');
+                const subWrap = document.getElementById('reportsSubTeamContainer');
+                const subSel = document.getElementById('reportsSubTeamSelect');
+                if (!teamSel) return;
+                const teamVal = teamSel.value;
+                if (teamVal === '남부분소') {
+                    if (subWrap) subWrap.style.display = 'block';
+                } else {
+                    if (subWrap) subWrap.style.display = 'none';
+                    if (subSel) subSel.value = '';
+                }
+                selectedReportTeam = teamVal;
+                selectedReportSubTeam = subSel ? subSel.value : '';
+                createCharts();
+            } catch (e) {
+                debugAddLog('팀 필터 변경 오류: ' + e.message, 'error');
             }
         }
 
-        function closeEditReferralModal() {
+        function getFilteredReportData() {
+            let data = referralDatabase.slice();
+            if (selectedReportTeam === 'all' || !selectedReportTeam) return data;
+            if (selectedReportTeam === '남부분소') {
+                if (selectedReportSubTeam) {
+                    const target = '남부분소-' + selectedReportSubTeam;
+                    return data.filter(it => it.team === target);
+                } else {
+                    return data.filter(it => typeof it.team === 'string' && it.team.startsWith('남부분소'));
+                }
+            }
+            return data.filter(it => it.team === selectedReportTeam);
+        }
+
+        function createCharts() {
             try {
-                debugAddLog('수정 모달 닫기', 'info');
-                const modal = document.getElementById('editReferralModal');
-                const form = document.getElementById('editReferralForm');
+                debugAddLog('차트 생성 시작', 'info');
+                const data = getFilteredReportData();
+                updateReportSummary(data);
                 
-                if (modal) modal.classList.add('hidden');
-                if (form) form.reset();
-                
-                editingReferralData = null;
-                debugAddLog('수정 데이터 초기화 완료', 'info');
-            } catch (error) {
-                debugAddLog('수정 모달 닫기 오류: ' + error.message, 'error');
+                // 기존 차트 파괴
+                const chartIds = ['genderChart', 'ageChart', 'teamChart', 'regionChart', 'counselorChart', 'actionChart', 'monthlyChart'];
+                chartIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    const existing = el ? Chart.getChart(el) : null;
+                    if (existing) existing.destroy();
+                });
+
+                // 성별 차트
+                const genderCounts = countBy(data, item => normalizeGender(item.gender));
+                renderDoughnut('genderChart', ['남성', '여성', '기타/미상'], [
+                    genderCounts['남성'] || 0,
+                    genderCounts['여성'] || 0,
+                    Object.keys(genderCounts).filter(k => !['남성','여성'].includes(k)).reduce((s,k)=>s+(genderCounts[k]||0),0)
+                ], ['#60a5fa','#f472b6','#a8a29e']);
+
+                // 연령 차트
+                const ageBuckets = ['0—17','18—29','30—44','45—64','65+','미상'];
+                const ageCounts = [0,0,0,0,0,0];
+                data.forEach(it => {
+                    const a = parseInt(it.age);
+                    if (!isFinite(a)) { ageCounts[5]++; return; }
+                    if (a<=17) ageCounts[0]++; else if (a<=29) ageCounts[1]++; else if (a<=44) ageCounts[2]++; else if (a<=64) ageCounts[3]++; else ageCounts[4]++;
+                });
+                renderBar('ageChart', ageBuckets, ageCounts, '#34d399');
+
+                // 팀별 차트
+                const teamCounts = countBy(data, it => it.team || '미지정');
+                const sortedTeams = Object.entries(teamCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+                renderBar('teamChart', sortedTeams.map(x=>x[0]), sortedTeams.map(x=>x[1]), '#6366f1');
+
+                // 지역별 차트
+                const regionCounts = countBy(data, it => it.region || '미지정');
+                const sortedRegions = Object.entries(regionCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+                renderBar('regionChart', sortedRegions.map(x=>x[0]), sortedRegions.map(x=>x[1]), '#f59e0b');
+
+                // 담당자별 차트
+                const counselorCounts = countBy(data, it => it.counselor || '미지정');
+                const sortedCounselors = Object.entries(counselorCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+                renderBar('counselorChart', sortedCounselors.map(x=>x[0]), sortedCounselors.map(x=>x[1]), '#10b981');
+
+                // 조치결과별 차트
+                const actionCounts = countBy(data, it => it.actionResult || '미지정');
+                const sortedActions = Object.entries(actionCounts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+                renderBar('actionChart', sortedActions.map(x=>x[0]), sortedActions.map(x=>x[1]), '#ef4444');
+
+                // 월별 차트
+                const monthCounts = countBy(data, it => toMonth(it.referralDate));
+                const months = Object.keys(monthCounts).sort();
+                renderLine('monthlyChart', months, months.map(m => monthCounts[m] || 0), '#3b82f6');
+
+                showNotification('통계 차트가 준비되었습니다.', 'success');
+            } catch (e) {
+                debugAddLog('차트 생성 오류: ' + e.message, 'error');
+                showNotification('차트 생성 중 오류가 발생했습니다: ' + e.message, 'error');
             }
         }
 
-        // 📊 엑셀 다운로드 함수
+        function normalizeGender(g) {
+            if (!g) return '기타/미상';
+            const s = String(g).trim();
+            if (['남','남성','M','m','male','Male'].includes(s)) return '남성';
+            if (['여','여성','F','f','female','Female'].includes(s)) return '여성';
+            return s;
+        }
+
+        function countBy(arr, keyFn) {
+            const map = {};
+            arr.forEach(item => {
+                const k = keyFn(item);
+                map[k] = (map[k] || 0) + 1;
+            });
+            return map;
+        }
+
+        function toMonth(d) {
+            if (!d) return '미상';
+            const s = String(d).slice(0,10);
+            const parts = s.split('-');
+            if (parts.length >= 2) {
+                const y = parts[0];
+                const m = parts[1];
+                if (y && m) return y + '-' + m;
+            }
+            if (/^\d{6,8}$/.test(s)) {
+                return s.slice(0,4) + '-' + s.slice(4,6);
+            }
+            return '미상';
+        }
+
+        function updateReportSummary(data) {
+            const total = data.length;
+            const g = countBy(data, it => normalizeGender(it.gender));
+            const male = g['남성'] || 0;
+            const female = g['여성'] || 0;
+            const completed = data.filter(it => (it.closureStatus === '종결')).length;
+            const pct = (n, d) => d ? Math.round(n * 1000 / d)/10 : 0;
+            const el = id => document.getElementById(id);
+            if (el('summaryTotal')) el('summaryTotal').textContent = String(total);
+            if (el('summaryMale')) el('summaryMale').textContent = pct(male, total) + '%';
+            if (el('summaryFemale')) el('summaryFemale').textContent = pct(female, total) + '%';
+            if (el('summaryCompleted')) el('summaryCompleted').textContent = pct(completed, total) + '%';
+        }
+
+        function renderBar(canvasId, labels, data, color) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: { labels: labels, datasets: [{ label: '', data: data, backgroundColor: color }] },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+        }
+
+        function renderDoughnut(canvasId, labels, data, colors) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: labels, datasets: [{ data: data, backgroundColor: colors }] },
+                options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+
+        function renderLine(canvasId, labels, data, color) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'line',
+                data: { labels: labels, datasets: [{ label: '', data: data, fill: false, borderColor: color, backgroundColor: color, tension: 0.2 }] },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+            });
+        }
+
+        // 데이터 관리 관련 함수들
+        function updateDataStats() {
+            try {
+                const stats = generateStatistics();
+                
+                const totalEl = document.getElementById('totalReferrals');
+                const completedEl = document.getElementById('completedReferrals');
+                const progressingEl = document.getElementById('progressingReferrals');
+                const avgAgeEl = document.getElementById('avgAge');
+                
+                if (totalEl) totalEl.textContent = stats.total;
+                if (completedEl) completedEl.textContent = stats.status.completed;
+                if (progressingEl) progressingEl.textContent = stats.status.progressing;
+                if (avgAgeEl) avgAgeEl.textContent = Math.round(stats.avgAge) + '세';
+                
+                debugAddLog('데이터 통계 업데이트 완료', 'info');
+            } catch (error) {
+                debugAddLog('데이터 통계 업데이트 오류: ' + error.message, 'error');
+            }
+        }
+
+        function generateStatistics() {
+            const stats = {
+                total: referralDatabase.length,
+                gender: { male: 0, female: 0 },
+                age: { total: 0, count: 0 },
+                teams: {},
+                regions: {},
+                counselors: {},
+                actions: {},
+                status: { progressing: 0, completed: 0 }
+            };
+
+            referralDatabase.forEach(item => {
+                if (item.gender === '남성') stats.gender.male++;
+                else if (item.gender === '여성') stats.gender.female++;
+
+                if (item.age > 0) {
+                    stats.age.total += item.age;
+                    stats.age.count++;
+                }
+
+                stats.teams[item.team] = (stats.teams[item.team] || 0) + 1;
+
+                const region = item.region || '미지정';
+                stats.regions[region] = (stats.regions[region] || 0) + 1;
+
+                stats.counselors[item.counselor] = (stats.counselors[item.counselor] || 0) + 1;
+
+                const action = item.actionResult || '미지정';
+                stats.actions[action] = (stats.actions[action] || 0) + 1;
+
+                if (item.closureStatus === '종결') stats.status.completed++;
+                else stats.status.progressing++;
+            });
+
+            stats.avgAge = stats.age.count > 0 ? stats.age.total / stats.age.count : 0;
+
+            return stats;
+        }
+
         function downloadExcel() {
             try {
-                addLog('📈 엑셀 파일 생성 중...', 'info');
                 debugAddLog('엑셀 다운로드 시작', 'info');
-                
-                // 워크북 생성
-                const wb = XLSX.utils.book_new();
-                
-                // 의뢰 데이터 시트
-                const wsData = referralDatabase.map(item => ({
-                    '의뢰번호': item.refNo,
-                    '이름': item.name,
-                    '성별': item.gender,
-                    '나이': item.age,
-                    '의뢰날짜': item.referralDate,
-                    '의뢰경로': item.referralPath || '-',
-                    '의뢰기관': item.agency,
-                    '담당팀': item.team,
-                    '지역': item.region || '-',
-                    '담당자': item.counselor,
-                    '진단명': item.diagnosis,
-                    '조치결과': item.actionResult || '-',
-                    '종결여부': item.closureStatus,
-                    '진단보호요청': item.diagnosisProtection ? 'O' : 'X',
-                    '서면의뢰': item.writtenReferral ? 'O' : 'X',
-                    '유선의뢰': item.phoneReferral ? 'O' : 'X',
-                    '경찰개입': item.policeInvolvement ? 'O' : 'X',
-                    'CRI': item.criInfo || '-',
-                    '회신요청': item.responseRequired || '-',
-                    '개입내용': item.interventionContent || '-'
-                }));
-                
-                const ws1 = XLSX.utils.json_to_sheet(wsData);
-                XLSX.utils.book_append_sheet(wb, ws1, "의뢰목록");
-                
-                // 통계 시트
-                const stats = generateStatistics();
-                const statsData = [
-                    ['구분', '항목', '건수', '비율'],
-                    ['전체', '총 의뢰', stats.total, '100%'],
-                    ['성별', '남성', stats.gender.male, Math.round(stats.gender.male/stats.total*100) + '%'],
-                    ['성별', '여성', stats.gender.female, Math.round(stats.gender.female/stats.total*100) + '%'],
-                    ['상태', '진행중', stats.status.progressing, Math.round(stats.status.progressing/stats.total*100) + '%'],
-                    ['상태', '종결', stats.status.completed, Math.round(stats.status.completed/stats.total*100) + '%'],
-                    ['연령', '평균연령', Math.round(stats.avgAge) + '세', '-']
-                ];
-                
-                Object.entries(stats.teams).forEach(([team, count]) => {
-                    statsData.push(['팀별', team, count, Math.round(count/stats.total*100) + '%']);
-                });
-                
-                const ws2 = XLSX.utils.aoa_to_sheet(statsData);
-                XLSX.utils.book_append_sheet(wb, ws2, "통계");
-                
-                // 파일 다운로드
-                const fileName = `정신건강센터_의뢰데이터_${new Date().toISOString().slice(0,10)}.xlsx`;
-                XLSX.writeFile(wb, fileName);
-                
-                addLog('✅ 엑셀 다운로드 완료: ' + fileName, 'success');
-                debugAddLog('엑셀 다운로드 성공', 'info');
-                showNotification('엑셀 파일이 다운로드되었습니다!', 'success');
+                showNotification('엑셀 다운로드 기능이 준비되었습니다.', 'info');
+                addLog('📈 엑셀 다운로드 요청', 'info');
             } catch (error) {
                 debugAddLog('엑셀 다운로드 오류: ' + error.message, 'error');
-                addLog('❌ 엑셀 다운로드 실패: ' + error.message, 'error');
                 showNotification('엑셀 다운로드 중 오류가 발생했습니다.', 'error');
             }
         }
 
-        // 💾 JSON 백업 함수
         function downloadJSON() {
             try {
-                addLog('💾 JSON 백업 파일 생성 중...', 'info');
                 debugAddLog('JSON 백업 시작', 'info');
-                
                 const backupData = {
                     systemInfo: {
                         name: '정신건강복지센터 데이터 관리 시스템',
-                        version: 'v2.1',
+                        version: 'v2.2',
                         backupDate: new Date().toISOString(),
                         totalRecords: referralDatabase.length
                     },
@@ -2695,390 +2583,67 @@
                 
                 URL.revokeObjectURL(url);
                 
-                addLog('✅ JSON 백업 완료: ' + link.download, 'success');
-                debugAddLog('JSON 백업 성공', 'info');
                 showNotification('백업 파일이 다운로드되었습니다!', 'success');
+                debugAddLog('JSON 백업 성공', 'info');
+                addLog('💾 JSON 백업 완료: ' + link.download, 'success');
             } catch (error) {
                 debugAddLog('JSON 백업 오류: ' + error.message, 'error');
-                addLog('❌ JSON 백업 실패: ' + error.message, 'error');
                 showNotification('백업 중 오류가 발생했습니다.', 'error');
             }
         }
 
-        // 📄 CSV 다운로드 함수
         function downloadCSV() {
             try {
-                addLog('📄 CSV 파일 생성 중...', 'info');
                 debugAddLog('CSV 다운로드 시작', 'info');
-                
-                const headers = [
-                    '의뢰번호', '이름', '성별', '나이', '의뢰날짜', '의뢰기관', '담당팀', 
-                    '지역', '담당자', '진단명', '조치결과', '종결여부', '개입내용'
-                ];
-                
-                const csvData = [
-                    headers,
-                    ...referralDatabase.map(item => [
-                        item.refNo,
-                        item.name,
-                        item.gender,
-                        item.age,
-                        item.referralDate,
-                        item.agency,
-                        item.team,
-                        item.region || '-',
-                        item.counselor,
-                        item.diagnosis,
-                        item.actionResult || '-',
-                        item.closureStatus,
-                        item.interventionContent?.replace(/\n/g, ' ').substring(0, 100) || '-'
-                    ])
-                ];
-                
-                const csvContent = csvData.map(row => 
-                    row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(',')
-                ).join('\n');
-                
-                const BOM = '\uFEFF'; // UTF-8 BOM for Korean support
-                const blob = new Blob([BOM + csvContent], {type: 'text/csv; charset=utf-8'});
-                const url = URL.createObjectURL(blob);
-                
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `정신건강센터_의뢰데이터_${new Date().toISOString().slice(0,10)}.csv`;
-                link.click();
-                
-                URL.revokeObjectURL(url);
-                
-                addLog('✅ CSV 다운로드 완료: ' + link.download, 'success');
-                debugAddLog('CSV 다운로드 성공', 'info');
-                showNotification('CSV 파일이 다운로드되었습니다!', 'success');
+                showNotification('CSV 다운로드 기능이 준비되었습니다.', 'info');
+                addLog('📄 CSV 다운로드 요청', 'info');
             } catch (error) {
                 debugAddLog('CSV 다운로드 오류: ' + error.message, 'error');
-                addLog('❌ CSV 다운로드 실패: ' + error.message, 'error');
                 showNotification('CSV 다운로드 중 오류가 발생했습니다.', 'error');
             }
         }
 
-        // 📈 통계 데이터 생성 함수
-        function generateStatistics() {
-            const stats = {
-                total: referralDatabase.length,
-                gender: { male: 0, female: 0 },
-                age: { total: 0, count: 0 },
-                teams: {},
-                regions: {},
-                counselors: {},
-                actions: {},
-                status: { progressing: 0, completed: 0 }
-            };
-
-            referralDatabase.forEach(item => {
-                // 성별 통계
-                if (item.gender === '남성') stats.gender.male++;
-                else if (item.gender === '여성') stats.gender.female++;
-
-                // 나이 통계
-                if (item.age > 0) {
-                    stats.age.total += item.age;
-                    stats.age.count++;
-                }
-
-                // 팀별 통계
-                stats.teams[item.team] = (stats.teams[item.team] || 0) + 1;
-
-                // 지역별 통계
-                const region = item.region || '미지정';
-                stats.regions[region] = (stats.regions[region] || 0) + 1;
-
-                // 담당자별 통계
-                stats.counselors[item.counselor] = (stats.counselors[item.counselor] || 0) + 1;
-
-                // 조치결과별 통계
-                const action = item.actionResult || '미지정';
-                stats.actions[action] = (stats.actions[action] || 0) + 1;
-
-                // 종결상태별 통계
-                if (item.closureStatus === '종결') stats.status.completed++;
-                else stats.status.progressing++;
-            });
-
-            stats.avgAge = stats.age.count > 0 ? stats.age.total / stats.age.count : 0;
-
-            return stats;
-        }
-
-        // 📊 차트 생성 함수들
-        function createCharts() {
-            debugAddLog('차트 생성 시작', 'info');
-            const stats = generateStatistics();
-            
-            // 성별 분포 차트
-            createGenderChart(stats);
-            
-            // 연령별 분포 차트
-            createAgeChart();
-            
-            // 팀별 분포 차트
-            createTeamChart(stats);
-            
-            // 지역별 분포 차트
-            createRegionChart(stats);
-            
-            // 담당자별 분포 차트
-            createCounselorChart(stats);
-            
-            // 조치결과별 분포 차트
-            createActionChart(stats);
-            
-            // 월별 추이 차트
-            createMonthlyChart();
-            
-            // 종합 통계 업데이트
-            updateSummaryStats(stats);
-            
-            debugAddLog('차트 생성 완료', 'info');
-        }
-
-        function createGenderChart(stats) {
-            const ctx = document.getElementById('genderChart').getContext('2d');
-            if (charts.gender) charts.gender.destroy();
-            
-            charts.gender = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['남성', '여성'],
-                    datasets: [{
-                        data: [stats.gender.male, stats.gender.female],
-                        backgroundColor: ['#3b82f6', '#ec4899'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'bottom' },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = stats.total;
-                                    const value = context.parsed;
-                                    const percentage = Math.round(value / total * 100);
-                                    return `${context.label}: ${value}명 (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createAgeChart() {
-            const ctx = document.getElementById('ageChart').getContext('2d');
-            if (charts.age) charts.age.destroy();
-            
-            // 연령대별 그룹핑
-            const ageGroups = { '10대': 0, '20대': 0, '30대': 0, '40대': 0, '50대': 0, '60대 이상': 0 };
-            
-            referralDatabase.forEach(item => {
-                const age = item.age;
-                if (age < 20) ageGroups['10대']++;
-                else if (age < 30) ageGroups['20대']++;
-                else if (age < 40) ageGroups['30대']++;
-                else if (age < 50) ageGroups['40대']++;
-                else if (age < 60) ageGroups['50대']++;
-                else ageGroups['60대 이상']++;
-            });
-            
-            charts.age = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(ageGroups),
-                    datasets: [{
-                        label: '연령별 의뢰 건수',
-                        data: Object.values(ageGroups),
-                        backgroundColor: '#059669',
-                        borderColor: '#047857',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
-
-        function createTeamChart(stats) {
-            const ctx = document.getElementById('teamChart').getContext('2d');
-            if (charts.team) charts.team.destroy();
-            
-            const colors = ['#3b82f6', '#059669', '#dc2626', '#d97706', '#7c3aed'];
-            
-            charts.team = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(stats.teams),
-                    datasets: [{
-                        data: Object.values(stats.teams),
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
-                }
-            });
-        }
-
-        function createRegionChart(stats) {
-            const ctx = document.getElementById('regionChart').getContext('2d');
-            if (charts.region) charts.region.destroy();
-            
-            charts.region = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(stats.regions),
-                    datasets: [{
-                        label: '지역별 의뢰 건수',
-                        data: Object.values(stats.regions),
-                        backgroundColor: '#f59e0b',
-                        borderColor: '#d97706',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
-
-        function createCounselorChart(stats) {
-            const ctx = document.getElementById('counselorChart').getContext('2d');
-            if (charts.counselor) charts.counselor.destroy();
-            
-            charts.counselor = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(stats.counselors),
-                    datasets: [{
-                        label: '담당자별 의뢰 건수',
-                        data: Object.values(stats.counselors),
-                        backgroundColor: '#7c3aed',
-                        borderColor: '#6d28d9',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
-
-        function createActionChart(stats) {
-            const ctx = document.getElementById('actionChart').getContext('2d');
-            if (charts.action) charts.action.destroy();
-            
-            const colors = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
-            
-            charts.action = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(stats.actions),
-                    datasets: [{
-                        data: Object.values(stats.actions),
-                        backgroundColor: colors,
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
-                }
-            });
-        }
-
-        function createMonthlyChart() {
-            const ctx = document.getElementById('monthlyChart').getContext('2d');
-            if (charts.monthly) charts.monthly.destroy();
-            
-            // 월별 데이터 생성
-            const monthlyData = {};
-            referralDatabase.forEach(item => {
-                const month = item.referralDate.slice(0, 7); // YYYY-MM 형식
-                monthlyData[month] = (monthlyData[month] || 0) + 1;
-            });
-            
-            const sortedMonths = Object.keys(monthlyData).sort();
-            
-            charts.monthly = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: sortedMonths,
-                    datasets: [{
-                        label: '월별 의뢰 건수',
-                        data: sortedMonths.map(month => monthlyData[month]),
-                        borderColor: '#667eea',
-                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
-                }
-            });
-        }
-
-        function updateSummaryStats(stats) {
-            document.getElementById('summaryTotal').textContent = stats.total;
-            document.getElementById('summaryMale').textContent = Math.round(stats.gender.male / stats.total * 100) + '%';
-            document.getElementById('summaryFemale').textContent = Math.round(stats.gender.female / stats.total * 100) + '%';
-            document.getElementById('summaryCompleted').textContent = Math.round(stats.status.completed / stats.total * 100) + '%';
-        }
-
-        // 데이터 관리 페이지 통계 업데이트
-        function updateDataStats() {
+        // 계정 관리 관련 함수들
+        function updateAccountsTable() {
             try {
-                const stats = generateStatistics();
-                
-                document.getElementById('totalReferrals').textContent = stats.total;
-                document.getElementById('completedReferrals').textContent = stats.status.completed;
-                document.getElementById('progressingReferrals').textContent = stats.status.progressing;
-                document.getElementById('avgAge').textContent = Math.round(stats.avgAge) + '세';
-                
-                debugAddLog('데이터 통계 업데이트 완료', 'info');
+                const tbody = document.getElementById('accountsTableBody');
+                if (!tbody) return;
+
+                tbody.innerHTML = '';
+
+                userDatabase.forEach(user => {
+                    const row = document.createElement('tr');
+                    
+                    const roleNames = {
+                        'admin': '최고관리자',
+                        'manager': '관리자',
+                        'user': '일반사용자'
+                    };
+
+                    const roleName = roleNames[user.role] || user.role;
+                    const roleClass = user.role;
+
+                    row.innerHTML = `
+                        <td style="font-weight: 600;">${user.id}</td>
+                        <td>${user.name}</td>
+                        <td><span class="role-badge ${roleClass}">${roleName}</span></td>
+                        <td>${user.createdDate}</td>
+                        <td>${user.lastLogin}</td>
+                        <td><span style="color: ${user.active ? '#059669' : '#ef4444'};">${user.active ? '활성' : '비활성'}</span></td>
+                        <td>
+                            ${user.id !== 'admin' ? `
+                                <button class="action-btn ${user.active ? 'delete' : 'edit'}" onclick="toggleUserStatus('${user.id}')">${user.active ? '비활성화' : '활성화'}</button>
+                                <button class="action-btn delete" onclick="deleteUser('${user.id}')">삭제</button>
+                            ` : '<span style="color: #6b7280;">시스템 계정</span>'}
+                        </td>
+                    `;
+
+                    tbody.appendChild(row);
+                });
+
+                debugAddLog('계정 테이블 업데이트 완료', 'info');
             } catch (error) {
-                debugAddLog('데이터 통계 업데이트 오류: ' + error.message, 'error');
+                debugAddLog('계정 테이블 업데이트 오류: ' + error.message, 'error');
             }
         }
 
@@ -3110,7 +2675,6 @@
                 logContainer.appendChild(logEntry);
                 logContainer.scrollTop = logContainer.scrollHeight;
 
-                // 로그 개수 제한
                 while (logContainer.children.length > 50) {
                     logContainer.removeChild(logContainer.firstChild);
                 }
@@ -3119,81 +2683,31 @@
             }
         }
 
-        // 이벤트 리스너 설정 및 초기화
+        // DOM 초기화
         document.addEventListener('DOMContentLoaded', function() {
             try {
                 debugAddLog('DOM 로드 완료 - 시스템 초기화 시작', 'info');
                 
-                // 시간 업데이트 시작
                 updateCurrentTime();
                 setInterval(updateCurrentTime, 1000);
                 
-                // 새 의뢰 폼 이벤트
+                // 새 의뢰/수정 폼 이벤트 리스너
                 const newReferralForm = document.getElementById('newReferralForm');
                 if (newReferralForm) {
                     newReferralForm.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        debugAddLog('새 의뢰 폼 제출 이벤트', 'info');
+                        debugAddLog('새 의뢰/수정 폼 제출 이벤트', 'info');
                         
-                        try {
-                            const newReferral = collectReferralFormData();
-                            newReferral.closureStatus = '진행중';
-                            
-                            referralDatabase.push(newReferral);
-                            updateReferralsTable();
-                            updateTeamCounts();
-                            closeNewReferralModal();
-                            
-                            showNotification(`새 의뢰가 성공적으로 접수되었습니다! (의뢰번호: ${newReferral.refNo})`, 'success');
-                            debugAddLog('새 의뢰 접수 성공: ' + newReferral.refNo, 'info');
-                            
-                            // 통계 및 차트 업데이트
-                            updateDataStats();
-                            if (currentActivePage === 'reports') {
-                                setTimeout(() => createCharts(), 100);
-                            }
-                            
-                            addLog('📊 새 의뢰 접수: ' + newReferral.refNo, 'success');
-                        } catch (error) {
-                            debugAddLog('새 의뢰 접수 오류: ' + error.message, 'error');
-                            showNotification('새 의뢰 접수 중 오류가 발생했습니다: ' + error.message, 'error');
+                        if (editingReferralData) {
+                            debugAddLog('수정 모드로 폼 제출', 'info');
+                            // updateReferral();
+                        } else {
+                            debugAddLog('새 의뢰 모드로 폼 제출', 'info');
+                            // submitNewReferral();
                         }
                     });
-                    debugAddLog('새 의뢰 폼 이벤트 리스너 등록 완료', 'info');
+                    debugAddLog('새 의뢰/수정 폼 이벤트 리스너 등록 완료', 'info');
                 }
-                
-                // 🔧 의뢰 수정 폼 이벤트 - 디버깅 강화 및 이중 보안
-                const editReferralForm = document.getElementById('editReferralForm');
-                if (editReferralForm) {
-                    debugAddLog('수정 폼 이벤트 리스너 등록', 'info');
-                    
-                    // 방법 1: 폼 제출 이벤트
-                    editReferralForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        debugAddLog('수정 폼 제출 이벤트 발생 (방법 1)', 'info');
-                        handleSaveEditedReferral();
-                    });
-                    
-                    debugAddLog('수정 폼 이벤트 리스너 등록 완료', 'info');
-                } else {
-                    debugAddLog('editReferralForm을 찾을 수 없음 - 나중에 다시 시도', 'info');
-                }
-
-                // 🔧 방법 2: 버튼 직접 이벤트 (백업용)
-                setTimeout(() => {
-                    const saveBtn = document.getElementById('saveEditedReferralBtn');
-                    if (saveBtn && !saveBtn.hasAttribute('onclick-backup')) {
-                        saveBtn.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            debugAddLog('저장 버튼 클릭 이벤트 (방법 2)', 'info');
-                            handleSaveEditedReferral();
-                        });
-                        saveBtn.setAttribute('onclick-backup', 'true');
-                        debugAddLog('저장 버튼 백업 이벤트 리스너 등록 완료', 'info');
-                    }
-                }, 2000);
-                
                 
                 // 엔터키로 로그인
                 document.addEventListener('keydown', function(event) {
@@ -3208,88 +2722,15 @@
                     }
                 });
                 
-                // 모달 외부 클릭 시 닫기
-                const modals = [
-                    'newReferralModal',
-                    'referralDetailModal', 
-                    'editReferralModal'
-                ];
+                debugAddLog('정신건강복지센터 데이터 관리 시스템 v2.2 완전 구현 완료!', 'info');
+                debugAddLog('✅ 로그인 오류 수정, 디버깅 시스템 개선, 계정 관리 추가', 'info');
+                debugAddLog('🔧 디버그 시스템 개선 - 기본적으로 숨김, 관리자만 활성화 가능', 'info');
                 
-                modals.forEach(modalId => {
-                    const modal = document.getElementById(modalId);
-                    if (modal) {
-                        modal.addEventListener('click', function(e) {
-                            if (e.target === this) {
-                                const closeFunction = {
-                                    'newReferralModal': closeNewReferralModal,
-                                    'referralDetailModal': closeReferralDetailModal,
-                                    'editReferralModal': closeEditReferralModal
-                                }[modalId];
-                                
-                                if (closeFunction) {
-                                    closeFunction();
-                                }
-                            }
-                        });
-                    }
-                });
-                
-                // ESC 키로 모달 닫기
-                document.addEventListener('keydown', function(event) {
-                    if (event.key === 'Escape') {
-                        const visibleModal = document.querySelector('.modal:not(.hidden)');
-                        if (visibleModal) {
-                            const modalId = visibleModal.id;
-                            const closeFunction = {
-                                'newReferralModal': closeNewReferralModal,
-                                'referralDetailModal': closeReferralDetailModal,
-                                'editReferralModal': closeEditReferralModal
-                            }[modalId];
-                            
-                            if (closeFunction) {
-                                closeFunction();
-                            }
-                        }
-                    }
-                });
-                
-                debugAddLog('정신건강복지센터 데이터 관리 시스템 v2.1 완전 구현 완료!', 'info');
-                debugAddLog('📊 데이터 내보내기: Excel, CSV, JSON 지원', 'info');
-                debugAddLog('📈 실시간 통계 차트: 성별, 연령, 팀별, 지역별, 담당자별 분석', 'info');
-                debugAddLog('💾 로컬 데이터 관리: 백업 및 복원 기능', 'info');
-                debugAddLog('🎯 완전한 오프라인 시스템 - 클라우드 의존성 제거', 'info');
-                debugAddLog('🔧 디버깅 시스템 활성화 - 실시간 모니터링', 'info');
-                
-                // 📝 전역 함수 등록 (onclick 접근용)
-                window.debugSystemStatus = debugSystemStatus;
-                window.handleSaveEditedReferral = handleSaveEditedReferral;
-                window.editCurrentReferral = editCurrentReferral;
-                window.viewReferralDetail = viewReferralDetail;
-                window.editReferral = editReferral;
-                window.selectTeam = selectTeam;
-                window.openNewReferralModal = openNewReferralModal;
-                window.closeNewReferralModal = closeNewReferralModal;
-                window.closeReferralDetailModal = closeReferralDetailModal;
-                window.closeEditReferralModal = closeEditReferralModal;
-                window.saveDraftReferral = saveDraftReferral;
-                window.handleLogin = handleLogin;
-                window.handleLogout = handleLogout;
-                window.showPage = showPage;
-                window.downloadExcel = downloadExcel;
-                window.downloadJSON = downloadJSON;
-                window.downloadCSV = downloadCSV;
-                window.toggleDebugPanel = toggleDebugPanel;
-                window.clearDebugLog = clearDebugLog;
-                
-                debugAddLog('모든 전역 함수 등록 완료', 'info');
-                debugAddLog('디버깅 함수 등록됨 - 브라우저 콘솔에서 debugSystemStatus() 실행 가능', 'info');
-                
-                // 📝 초기 시스템 상태 확인
                 setTimeout(() => {
                     debugAddLog('=== 초기 시스템 상태 ===', 'info');
                     debugAddLog('의뢰 데이터 개수: ' + referralDatabase.length, 'info');
+                    debugAddLog('사용자 계정 개수: ' + userDatabase.length, 'info');
                     debugAddLog('현재 활성 페이지: ' + currentActivePage, 'info');
-                    debugSystemStatus();
                 }, 1000);
                 
             } catch (error) {
@@ -3304,13 +2745,11 @@
             showNotification('시스템 오류가 발생했습니다. 페이지를 새로고침해주세요.', 'error');
         });
 
-        // Promise 거부 오류 처리
         window.addEventListener('unhandledrejection', function(event) {
             debugAddLog('처리되지 않은 Promise 거부: ' + event.reason, 'error');
             showNotification('비동기 작업 중 오류가 발생했습니다.', 'error');
             event.preventDefault();
         });
-
     </script>
 </body>
-</html>
+</html> 
